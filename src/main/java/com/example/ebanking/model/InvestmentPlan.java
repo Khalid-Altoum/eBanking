@@ -6,10 +6,18 @@
 
 package com.example.ebanking.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
+
 /**
  *
  * @author HMD
  */
+@Entity
+@Table(name = "InvestmentPlan")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public class InvestmentPlan {
     
 }

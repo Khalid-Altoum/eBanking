@@ -6,10 +6,19 @@
 
 package com.example.ebanking.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 /**
  *
  * @author HMD
  */
-public class Client {
+@Entity
+@Table(name="Client")
+public class Client extends User {
+    
+    
+    
+   
     
 }

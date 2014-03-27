@@ -6,10 +6,15 @@
 
 package com.example.ebanking.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 /**
  *
  * @author HMD
  */
-public class OpenTermInvestment {
+@Entity
+@Table(name="OpenTermInvestment")
+public class OpenTermInvestment extends InvestmentPlan{
     
 }
