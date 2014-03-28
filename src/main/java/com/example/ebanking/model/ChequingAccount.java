@@ -15,7 +15,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-
+ 
 @Entity
 @Table
 @PrimaryKeyJoinColumn(name = "accountId")
