@@ -16,23 +16,29 @@
     <property name="show_sql">true</property>
     <property name="hbm2ddl.auto">update</property>
     
-    
+    <!-- List of Class mapping files   -->
     <mapping class="com.example.ebanking.model.Account"/>
     <mapping class="com.example.ebanking.model.ChequingAccount"/>
     <mapping class="com.example.ebanking.model.SavingAccount"/>
     <mapping class="com.example.ebanking.model.InvestmentAccount"/>
     <mapping class="com.example.ebanking.model.CreditAccount"/>
+    <mapping class="com.example.ebanking.model.Payee"/>
     <mapping class="com.example.ebanking.model.EWallet"/>
-    <!-- List of Class mapping files 
     
-    <mapping class="com.soen.hasslefree.models.Address"/>
-    <mapping class="com.soen.hasslefree.models.Appointment"/>
-    <mapping class="com.soen.hasslefree.models.AppointmentType"/>
-    <mapping class="com.soen.hasslefree.models.Clinic"/>
-    <mapping class="com.soen.hasslefree.models.ClinicHours"/>
-    <mapping class="com.soen.hasslefree.models.Nurse"/>
-    <mapping class="com.soen.hasslefree.models.Patient"/>
+    <mapping class="com.example.ebanking.model.Transaction"/>
     
-   -->
+    <mapping class="com.example.ebanking.model.Address"/>
+
+    <mapping class="com.example.ebanking.model.User"/>
+    <mapping class="com.example.ebanking.model.Client"/>
+    <mapping class="com.example.ebanking.model.Employee"/>
+    
+    <mapping class="com.example.ebanking.model.InvestmentPlan"/>
+    <mapping class="com.example.ebanking.model.OpenTermInvestment"/>
+    <mapping class="com.example.ebanking.model.ClosedTermInvestment"/>
+
+     <mapping class="com.example.ebanking.model.Role"/>
+     <mapping class="com.example.ebanking.model.UserRole"/>   
+    
   </session-factory>
 </hibernate-configuration>

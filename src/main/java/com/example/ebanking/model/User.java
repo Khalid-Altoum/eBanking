@@ -10,12 +10,15 @@ import com.example.ebanking.persistence.HibernateUtil;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -33,10 +36,10 @@ public class User implements Serializable{
     @Id
     @GeneratedValue
     private long userId;
-
+    
     @Column
-    private String email;
-
+    private String userName;
+    
     @Column
     private String password;
 
@@ -51,15 +54,30 @@ public class User implements Serializable{
 
     @Column
     private String phoneNumber;
+    
+    @Column
+    private String email;
+    
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Address userAddress;
 
-    public double getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(double userId) {
-        this.userId = (long) userId;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    
     public String getEmail() {
         return email;
     }
@@ -106,6 +124,14 @@ public class User implements Serializable{
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Address getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(Address userAddress) {
+        this.userAddress = userAddress;
     }
 
 
