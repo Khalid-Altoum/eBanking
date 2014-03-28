@@ -11,12 +11,17 @@ import com.example.ebanking.persistence.HibernateUtil;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -49,20 +54,29 @@ public class Account implements Serializable   {
     @Column
     @Type(type = "org.joda.time.contrib.hibernate.PersistentDateTime")
     private DateTime openedDate;
+    
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Client client;
 
-   // @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  //  protected Client relatedClient;
+    public static enum AccountStatus {
+
+        ACTIVE, BLOCKED, INACTIVE
+    };
+
+    @Enumerated(EnumType.STRING)
+    private AccountStatus status;
 
     public Account() {
         this.setBalance(0);
         this.setCurrency("CAD");
+        this.status= AccountStatus.ACTIVE;
     }
 
-    public Account(double startingBalance, Client customer) {
+    public Account(double startingBalance, Client client) {
         this.setBalance(startingBalance);
-//        this.setRelatedCustomer(customer);
+        this.setClient(client);
         this.setCurrency("CAD");
-
+        this.status= AccountStatus.ACTIVE;
     }
 
     public Long getAccountId() {
@@ -103,6 +117,22 @@ public class Account implements Serializable   {
 
     public void setOpenedDate(DateTime openedDate) {
         this.openedDate = openedDate;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public AccountStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AccountStatus status) {
+        this.status = status;
     }
 
  

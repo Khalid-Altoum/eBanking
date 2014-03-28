@@ -10,8 +10,10 @@ import com.example.ebanking.persistence.HibernateUtil;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import org.hibernate.HibernateException;
@@ -28,6 +30,10 @@ public class Client extends User implements Serializable{
     
     @Column
     private long age;
+    
+    
+    @OneToMany(mappedBy = "client")
+    private List<Account> accounts;
 
     public long getAge() {
         return age;
@@ -36,17 +42,30 @@ public class Client extends User implements Serializable{
     public void setAge(long age) {
         this.age = age;
     }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
+    }
     
+    
+    
+    @Override
      public long saveUser()  {
         ObjectDao<Client> userDao = new ObjectDao<Client>();
         return userDao.addObject(this);
     }
 
+    @Override
     public void updateUser() throws IllegalAccessException, InvocationTargetException {
         ObjectDao<Client> userDao = new ObjectDao<Client>();
         userDao.updateObject(this, this.getUserId(), Client.class);
     }
 
+    @Override
     public void deleteUser() throws IllegalAccessException, InvocationTargetException {
         ObjectDao<Client> userDao = new ObjectDao<Client>();
         userDao.deleteObject(this, this.getUserId(), Client.class);
