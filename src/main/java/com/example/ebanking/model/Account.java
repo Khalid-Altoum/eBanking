@@ -282,6 +282,36 @@ public class Account implements Serializable {
         return "Account{" + "accountId=" + accountId + ", accountNumber=" + accountNumber + ", balance=" + balance + ", currency=" + currency + ", currencySign=" + currencySign + ", openedDate=" + openedDate + ", client=" + client + ", sourceTransactions=" + sourceTransactions + ", status=" + status + '}';
     }
 
+    public static List<Account> getPayeeAccounts(List<Account> clientAccounts) {
+        List<Account> accounts = new ArrayList<Account>();
+
+        for (Account ac : clientAccounts) {
+            if (ac instanceof PayeeAccount) {
+                accounts.add(ac);
+            }
+        }
+        return accounts;
+    }
+    public static List<Account> getPersonalAccount(List<Account> clientAccounts){
+    List<Account> accounts = new ArrayList<Account>();
+    for (Account ac : clientAccounts) {
+            if (!(ac instanceof PayeeAccount) && !(ac instanceof InvestmentAccount)) {
+                accounts.add(ac);
+            }
+        }
+        return accounts;
+    }
+    public static List<Account> getInvestmentAccounts(List<Account> clientAccounts) {
+        List<Account> accounts = new ArrayList<Account>();
+
+        for (Account ac : clientAccounts) {
+            if (ac instanceof InvestmentAccount) {
+                accounts.add(ac);
+            }
+        }
+        return accounts;
+    }
+
     // TO DO
     public void payBill(double amount) {
     }
