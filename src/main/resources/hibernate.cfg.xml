@@ -6,7 +6,7 @@
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/ebanking?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
-    <property name="hibernate.connection.password">112233</property>
+    <property name="hibernate.connection.password">1234</property>
     <!-- JDBC connection pool (use the built-in) -->
     <property name="connection.pool_size">1</property>
     <!-- Enable Hibernate's automatic session context management -->
@@ -15,6 +15,10 @@
     <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
     <property name="show_sql">true</property>
     <property name="hbm2ddl.auto">update</property>
+    
+    
+    <mapping class="com.example.ebanking.model.Account"/>
+    <mapping class="com.example.ebanking.model.ChequingAccount"/>
     <!-- List of Class mapping files 
     
     <mapping class="com.soen.hasslefree.models.Address"/>
@@ -26,6 +30,5 @@
     <mapping class="com.soen.hasslefree.models.Patient"/>
     
    -->
-   
   </session-factory>
 </hibernate-configuration>
