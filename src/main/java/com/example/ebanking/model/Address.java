@@ -7,6 +7,7 @@ package com.example.ebanking.model;
 
 
 import com.example.ebanking.dao.ObjectDao;
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,7 +31,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="Address")
-public class Address implements java.io.Serializable {
+public class Address implements Serializable {
 
     @Id
     @GeneratedValue

@@ -5,6 +5,7 @@
  */
 package com.example.ebanking.model;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -21,12 +22,12 @@ import javax.persistence.Table;
  * @author HMD
  */
 @Entity
-@Table(name = "User")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-public class User {
+@Table(name = "user")
+@Inheritance(strategy = InheritanceType.JOINED)
+public class User implements Serializable{
 
     @Id
-    private double userId;
+    private long userId;
 
     @Column
     private String email;
@@ -51,7 +52,7 @@ public class User {
     }
 
     public void setUserId(double userId) {
-        this.userId = userId;
+        this.userId = (long) userId;
     }
 
     public String getEmail() {

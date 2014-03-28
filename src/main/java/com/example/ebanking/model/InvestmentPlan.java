@@ -6,7 +6,9 @@
 
 package com.example.ebanking.model;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
@@ -17,7 +19,17 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "InvestmentPlan")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-public class InvestmentPlan {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public class InvestmentPlan implements Serializable{
+    @Id
+    private Long investmentPlanId;
+
+    public Long getId() {
+        return investmentPlanId;
+    }
+
+    public void setId(Long id) {
+        this.investmentPlanId = id;
+    }
     
 }
