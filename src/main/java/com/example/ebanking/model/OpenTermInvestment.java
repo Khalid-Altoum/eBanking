@@ -7,11 +7,8 @@
 package com.example.ebanking.model;
 
 import java.io.Serializable;
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -22,12 +19,10 @@ import javax.persistence.Table;
 @Entity
 @Table
 @PrimaryKeyJoinColumn(name = "investmentPlanId")
-  
     
 public class OpenTermInvestment extends InvestmentPlan implements Serializable{
-    @Id
-    private Long openedTermInvestmentId;
-    
+
+    @Column
     private double interestRate;
 
     public double getInterestRate() {
@@ -37,14 +32,6 @@ public class OpenTermInvestment extends InvestmentPlan implements Serializable{
     public void setInterestRate(double interestRate) {
         this.interestRate = interestRate;
     }
-
-    public Long getOpenedTermInvestmentId() {
-        return openedTermInvestmentId;
-    }
-
-    public void setOpenedTermInvestmentId(Long openedTermInvestmentId) {
-        this.openedTermInvestmentId = openedTermInvestmentId;
-    }
-    
+   
     
 }

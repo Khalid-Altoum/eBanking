@@ -20,12 +20,6 @@ import javax.persistence.Table;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
-/**
- *
- * @author Peyman
- */
-@ManagedBean
-@RequestScoped
 
 @Entity
 @Table

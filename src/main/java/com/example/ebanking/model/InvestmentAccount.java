@@ -6,10 +6,14 @@
 
 package com.example.ebanking.model;
 
-/**
- *
- * @author Peyman
- */
-public class InvestmentAccount {
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+
+@Entity
+@Table
+@PrimaryKeyJoinColumn(name = "accountId")
+public class InvestmentAccount extends Account implements Serializable {
     
 }

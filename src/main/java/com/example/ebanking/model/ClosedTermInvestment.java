@@ -7,11 +7,7 @@
 package com.example.ebanking.model;
 
 import java.io.Serializable;
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import org.joda.time.DateTime;
@@ -24,14 +20,9 @@ import org.joda.time.DateTime;
 @Table
 @PrimaryKeyJoinColumn(name = "investmentPlanId")
 
-
-
 public class ClosedTermInvestment extends InvestmentPlan implements Serializable
 {
-    
-    @Id
-    private Long closedTermInvestmentId;
-
+ 
       private double interestRate;
       private DateTime startDate;
       private DateTime endDate;
@@ -58,24 +49,5 @@ public class ClosedTermInvestment extends InvestmentPlan implements Serializable
 
     public void setEndDate(DateTime endDate) {
         this.endDate = endDate;
-    }
-
-    public Long getOpenedTermInvestmentId() {
-        return closedTermInvestmentId;
-    }
-
-    public void setOpenedTermInvestmentId(Long id) {
-        this.closedTermInvestmentId = id;
-    }
-
-    public Long getClosedTermInvestmentId() {
-        return closedTermInvestmentId;
-    }
-
-    public void setClosedTermInvestmentId(Long closedTermInvestmentId) {
-        this.closedTermInvestmentId = closedTermInvestmentId;
-    }
-    
-    
-    
+    } 
 }

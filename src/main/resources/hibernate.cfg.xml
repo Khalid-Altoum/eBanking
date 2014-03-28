@@ -19,6 +19,10 @@
     
     <mapping class="com.example.ebanking.model.Account"/>
     <mapping class="com.example.ebanking.model.ChequingAccount"/>
+    <mapping class="com.example.ebanking.model.SavingAccount"/>
+    <mapping class="com.example.ebanking.model.InvestmentAccount"/>
+    <mapping class="com.example.ebanking.model.CreditAccount"/>
+    <mapping class="com.example.ebanking.model.EWallet"/>
     <!-- List of Class mapping files 
     
     <mapping class="com.soen.hasslefree.models.Address"/>

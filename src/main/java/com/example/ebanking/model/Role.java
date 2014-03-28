@@ -6,15 +6,18 @@
 package com.example.ebanking.model;
 
 import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
-/**
- *
- * @author HMD
- */
+@Entity
+@Table
+
 public class Role implements Serializable{
 
     @Id
+    @GeneratedValue
     private double roleId;
     private String roleName;
 

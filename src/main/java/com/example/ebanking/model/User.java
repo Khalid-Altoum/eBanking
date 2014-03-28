@@ -6,12 +6,10 @@
 package com.example.ebanking.model;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import org.hibernate.Session;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
@@ -27,6 +25,7 @@ import javax.persistence.Table;
 public class User implements Serializable{
 
     @Id
+    @GeneratedValue
     private long userId;
 
     @Column
