@@ -4,7 +4,9 @@ import com.example.ebanking.dao.ObjectDao;
 import com.example.ebanking.persistence.HibernateUtil;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,20 +39,31 @@ public class Transaction implements Serializable {
     private String description;
 
     @Column
-    private double debit;
+    private String debit;
 
     @Column
-    private double credit;
-    
-    
+    private String credit;
+
     @ManyToOne
     private Account sourceAccount;
-     
+
     @ManyToOne
     private Account targetAccount;
-     
 
-    
+    public Transaction() {
+    }
+
+    public Transaction(Account sourceAccount, Account targetAccount, double debit, double credit) {
+        this.sourceAccount = sourceAccount;
+        this.targetAccount = targetAccount;
+        this.debit = formatDoubleToCurrency(debit);
+        this.credit = formatDoubleToCurrency(credit);
+        this.transactionTime=DateTime.now();
+                
+                
+
+    }
+
     public Long getTransactionId() {
         return transactionId;
     }
@@ -75,19 +88,19 @@ public class Transaction implements Serializable {
         this.description = description;
     }
 
-    public double getDebit() {
+    public String getDebit() {
         return debit;
     }
 
-    public void setDebit(double debit) {
+    public void setDebit(String debit) {
         this.debit = debit;
     }
 
-    public double getCredit() {
+    public String getCredit() {
         return credit;
     }
 
-    public void setCredit(double credit) {
+    public void setCredit(String credit) {
         this.credit = credit;
     }
 
@@ -107,8 +120,18 @@ public class Transaction implements Serializable {
         this.targetAccount = targetAccount;
     }
 
-    
-    public long saveTransaction()  {
+    public String formatDoubleToCurrency(double amount) {
+        if (amount == 0) {
+            return "";
+        } else {
+            String currencyString = NumberFormat.getCurrencyInstance(Locale.CANADA).format(amount);
+            //return currencyString.replaceAll("\\.00", "");
+            return currencyString;
+           
+        }
+    }
+
+    public long saveTransaction() {
         ObjectDao<Transaction> accountDao = new ObjectDao<Transaction>();
         return accountDao.addObject(this);
     }
@@ -146,7 +169,4 @@ public class Transaction implements Serializable {
         return accounts;
     }
 
-   
-
-  
 }

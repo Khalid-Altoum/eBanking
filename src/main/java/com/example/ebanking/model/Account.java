@@ -177,10 +177,6 @@ public class Account implements Serializable {
         this.currencySign = currencySign;
     }
 
-    
-    
-    
-    
     // Hibernate Methods
     public long saveAccount() {
         ObjectDao<Account> accountDao = new ObjectDao<Account>();
@@ -226,21 +222,32 @@ public class Account implements Serializable {
         double balance = this.getBalance();
         balance -= amount;
         this.setBalance(balance);
-        try{
-        this.updateAccount();
-        isDone = true;
-        }
-        catch(Exception e){
-        return false;
+        try {
+            this.updateAccount();
+            isDone = true;
+            Transaction tr = new Transaction(this, null, amount, 0);
+            tr.saveTransaction();
+        } catch (Exception e) {
+            return false;
         }
         return isDone;
     }
 
-    public void deposite(double amount) throws IllegalAccessException, InvocationTargetException {
+    public boolean deposite(double amount) throws IllegalAccessException, InvocationTargetException {
+        boolean isDone = false;
+
         double balance = this.getBalance();
         balance += amount;
         this.setBalance(balance);
-        this.updateAccount();
+        try {
+            this.updateAccount();
+            isDone = true;
+            Transaction tr = new Transaction(this, null, amount, 0);
+            tr.saveTransaction();
+        } catch (Exception e) {
+            return false;
+        }
+        return isDone;
     }
 
     public static boolean transfer(Account sourceAccount, Account targetAccount, double amount) {
@@ -253,11 +260,24 @@ public class Account implements Serializable {
             sourceBalance -= amount;
             targetBalance += amount;
 
-            sourceAccount.setBalance(sourceBalance);
-            targetAccount.setBalance(targetBalance);
-            isDone = true;
+            try {
+                sourceAccount.setBalance(sourceBalance);
+                sourceAccount.updateAccount();
+
+                targetAccount.setBalance(targetBalance);
+                targetAccount.updateAccount();
+
+                isDone = true;
+                Transaction sourceTransaction = new Transaction(sourceAccount, null, amount, 0);
+                Transaction targetTransaction = new Transaction(targetAccount, null, 0, amount);
+                sourceTransaction.saveTransaction();
+                targetTransaction.saveTransaction();
+            } catch (Exception e) {
+                return false;
+            }
         }
         return isDone;
+
     }
 
     // TO DO

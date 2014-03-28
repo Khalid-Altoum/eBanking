@@ -7,6 +7,8 @@
 package com.example.ebanking.run;
 import com.example.ebanking.model.*;
 import java.lang.reflect.InvocationTargetException;
+import java.text.NumberFormat;
+import java.util.Locale;
 import org.joda.time.DateTime;
 /**
  *
@@ -19,13 +21,14 @@ public class test1DB {
 //        ch.setBalance(50000);
 //        ch.setOpenedDate(DateTime.now());
 //        ch.saveAccount();
-        
+//        
       Account ac = Account.getAccountById(1);
      ac.deposite(1000);
-     ac.withdraw(500);
+     ac.withdraw(500.90);
      ac.updateAccount();
         
         
-        
+//         String s =NumberFormat.getCurrencyInstance(Locale.CANADA).format(55);
+//         System.out.println(s);
     }
 }
