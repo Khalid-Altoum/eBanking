@@ -10,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -52,29 +53,10 @@ public class test1DB {
 //
 //        cl.setAccounts(accounts);
 //        long id = cl.saveUser();
-
-        
-        
-        
-        
         Client cl2 = Client.getClientsById(8);
-        
-        cl2.getAccounts().toArray().toString();
-        
-        
-        
-        
-//        Account ch = new Account();
-//        ch.setAccountNumber("CH0000000000000001");
-//        ch.setBalance(50000);
-//        ch.setOpenedDate(DateTime.now());
-//        ch.saveAccount();
-//        
-//        Account ac = Account.getAccountById(1);
-//        ac.deposite(1000, "Deposit");
-//        ac.withdraw(500.90, "Withdraw");
-//        ac.updateAccount();
-//         String s =NumberFormat.getCurrencyInstance(Locale.CANADA).format(55);
-//         System.out.println(s);
+        for (Iterator<Account> it = cl2.getAccounts().iterator(); it.hasNext();) {
+            String ac = it.next().toString();
+            System.out.println(ac);
+        }
     }
 }

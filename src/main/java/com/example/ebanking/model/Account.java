@@ -27,6 +27,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
@@ -63,6 +65,7 @@ public class Account implements Serializable {
     private Client client;
 
     @OneToMany(mappedBy = "sourceAccount", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Transaction> sourceTransactions;
 
     public static enum AccountStatus {
@@ -272,6 +275,11 @@ public class Account implements Serializable {
         }
         return isDone;
 
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" + "accountId=" + accountId + ", accountNumber=" + accountNumber + ", balance=" + balance + ", currency=" + currency + ", currencySign=" + currencySign + ", openedDate=" + openedDate + ", client=" + client + ", sourceTransactions=" + sourceTransactions + ", status=" + status + '}';
     }
 
     // TO DO
