@@ -5,7 +5,11 @@
  */
 package com.example.ebanking.model;
 
+import com.example.ebanking.dao.ObjectDao;
+import com.example.ebanking.persistence.HibernateUtil;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Entity;
@@ -13,6 +17,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 
 
 /**
@@ -102,4 +108,42 @@ public class User implements Serializable{
         this.phoneNumber = phoneNumber;
     }
 
+
+    public long saveUser()  {
+        ObjectDao<User> userDao = new ObjectDao<User>();
+        return userDao.addObject(this);
+    }
+
+    public void updateUser() throws IllegalAccessException, InvocationTargetException {
+        ObjectDao<User> userDao = new ObjectDao<User>();
+        userDao.updateObject(this, this.getUserId(), User.class);
+    }
+
+    public void deleteUser() throws IllegalAccessException, InvocationTargetException {
+        ObjectDao<User> userDao = new ObjectDao<User>();
+        userDao.deleteObject(this, this.getUserId(), User.class);
+    }
+
+    public static User getUserById(long id) {
+        User userHolder = null;
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            userHolder = (User) session.get(User.class, id);
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return userHolder;
+    }
+
+    public static ArrayList<User> getUsers() {
+        ArrayList<User> users;
+        ObjectDao userDao = new ObjectDao();
+        users = userDao.getAllObjects("User");
+        return users;
+    }
 }
