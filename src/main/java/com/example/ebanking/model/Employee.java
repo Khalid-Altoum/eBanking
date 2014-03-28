@@ -11,10 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-/**
- *
- * @author HMD
- */
 @Entity
 @Table
 @PrimaryKeyJoinColumn(name = "userId")

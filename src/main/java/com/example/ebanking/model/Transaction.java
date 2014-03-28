@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -40,6 +41,14 @@ public class Transaction implements Serializable {
 
     @Column
     private double credit;
+    
+    
+    @ManyToOne
+    private Account sourceAccount;
+     
+    @ManyToOne
+    private Account targetAccount;
+     
 
     
     public Long getTransactionId() {
@@ -82,6 +91,23 @@ public class Transaction implements Serializable {
         this.credit = credit;
     }
 
+    public Account getSourceAccount() {
+        return sourceAccount;
+    }
+
+    public void setSourceAccount(Account sourceAccount) {
+        this.sourceAccount = sourceAccount;
+    }
+
+    public Account getTargetAccount() {
+        return targetAccount;
+    }
+
+    public void setTargetAccount(Account targetAccount) {
+        this.targetAccount = targetAccount;
+    }
+
+    
     public long saveTransaction()  {
         ObjectDao<Transaction> accountDao = new ObjectDao<Transaction>();
         return accountDao.addObject(this);

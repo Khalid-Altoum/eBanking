@@ -13,10 +13,15 @@ import org.joda.time.DateTime;
  */
 public class test1DB {
     public static void main(String[] args) {
-        ChequingAccount ch = new ChequingAccount();
+        Account ch = new Account();
         ch.setAccountNumber("CH0000000000000001");
         ch.setBalance(50000);
         ch.setOpenedDate(DateTime.now());
         ch.saveAccount();
+        
+        
+        
+        
+        
     }
 }
