@@ -23,7 +23,6 @@
     <mapping class="com.example.ebanking.model.InvestmentAccount"/>
     <mapping class="com.example.ebanking.model.CreditAccount"/>
     <mapping class="com.example.ebanking.model.Payee"/>
-    <mapping class="com.example.ebanking.model.EWallet"/>
     
     <mapping class="com.example.ebanking.model.Transaction"/>
     

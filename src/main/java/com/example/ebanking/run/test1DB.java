@@ -6,20 +6,24 @@
 
 package com.example.ebanking.run;
 import com.example.ebanking.model.*;
+import java.lang.reflect.InvocationTargetException;
 import org.joda.time.DateTime;
 /**
  *
  * @author Khalid
  */
 public class test1DB {
-    public static void main(String[] args) {
-        Account ch = new Account();
-        ch.setAccountNumber("CH0000000000000001");
-        ch.setBalance(50000);
-        ch.setOpenedDate(DateTime.now());
-        ch.saveAccount();
+    public static void main(String[] args) throws IllegalAccessException, InvocationTargetException {
+//        Account ch = new Account();
+//        ch.setAccountNumber("CH0000000000000001");
+//        ch.setBalance(50000);
+//        ch.setOpenedDate(DateTime.now());
+//        ch.saveAccount();
         
-        
+      Account ac = Account.getAccountById(1);
+     ac.deposite(1000);
+     ac.withdraw(500);
+     ac.updateAccount();
         
         
         
