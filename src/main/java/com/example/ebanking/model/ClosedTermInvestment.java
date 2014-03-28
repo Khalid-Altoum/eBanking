@@ -28,9 +28,9 @@ import org.joda.time.DateTime;
 
 public class ClosedTermInvestment extends InvestmentPlan implements Serializable
 {
-   
+    
     @Id
-    private Long id;
+    private Long closedTermInvestmentId;
 
       private double interestRate;
       private DateTime startDate;
@@ -60,12 +60,20 @@ public class ClosedTermInvestment extends InvestmentPlan implements Serializable
         this.endDate = endDate;
     }
 
-    public Long getId() {
-        return id;
+    public Long getOpenedTermInvestmentId() {
+        return closedTermInvestmentId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setOpenedTermInvestmentId(Long id) {
+        this.closedTermInvestmentId = id;
+    }
+
+    public Long getClosedTermInvestmentId() {
+        return closedTermInvestmentId;
+    }
+
+    public void setClosedTermInvestmentId(Long closedTermInvestmentId) {
+        this.closedTermInvestmentId = closedTermInvestmentId;
     }
     
     

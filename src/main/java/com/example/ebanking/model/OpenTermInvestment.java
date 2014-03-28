@@ -26,7 +26,7 @@ import javax.persistence.Table;
     
 public class OpenTermInvestment extends InvestmentPlan implements Serializable{
     @Id
-    private Long id;
+    private Long openedTermInvestmentId;
     
     private double interestRate;
 
@@ -38,12 +38,12 @@ public class OpenTermInvestment extends InvestmentPlan implements Serializable{
         this.interestRate = interestRate;
     }
 
-    public Long getId() {
-        return id;
+    public Long getOpenedTermInvestmentId() {
+        return openedTermInvestmentId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setOpenedTermInvestmentId(Long openedTermInvestmentId) {
+        this.openedTermInvestmentId = openedTermInvestmentId;
     }
     
     

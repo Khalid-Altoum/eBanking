@@ -24,11 +24,11 @@ public class InvestmentPlan implements Serializable{
     @Id
     private Long investmentPlanId;
 
-    public Long getId() {
+    public Long getOpenedTermInvestmentId() {
         return investmentPlanId;
     }
 
-    public void setId(Long id) {
+    public void setOpenedTermInvestmentId(Long id) {
         this.investmentPlanId = id;
     }
     
