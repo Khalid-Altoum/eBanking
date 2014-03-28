@@ -11,8 +11,11 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -32,7 +35,7 @@ public class Client extends User implements Serializable{
     private long age;
     
     
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Account> accounts;
 
     public long getAge() {
@@ -71,12 +74,12 @@ public class Client extends User implements Serializable{
         userDao.deleteObject(this, this.getUserId(), Client.class);
     }
 
-    public static User getClientsById(long id) {
-        User userHolder = null;
+    public static Client getClientsById(long id) {
+        Client userHolder = null;
         Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            userHolder = (User) session.get(Client.class, id);
+            userHolder = (Client) session.get(Client.class, id);
         } catch (HibernateException e) {
             e.printStackTrace();
         } finally {

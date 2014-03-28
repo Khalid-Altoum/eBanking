@@ -43,19 +43,20 @@ public class Transaction implements Serializable {
 
     @Column
     private String credit;
+   
 
     @ManyToOne
     private Account sourceAccount;
+    
+    
 
-    @ManyToOne
-    private Account targetAccount;
 
     public Transaction() {
     }
 
-    public Transaction(Account sourceAccount, Account targetAccount, double debit, double credit) {
+    public Transaction(Account sourceAccount,  double debit, double credit,String description) {
         this.sourceAccount = sourceAccount;
-        this.targetAccount = targetAccount;
+        this.description = description;
         this.debit = formatDoubleToCurrency(debit);
         this.credit = formatDoubleToCurrency(credit);
         this.transactionTime=DateTime.now();
@@ -110,14 +111,6 @@ public class Transaction implements Serializable {
 
     public void setSourceAccount(Account sourceAccount) {
         this.sourceAccount = sourceAccount;
-    }
-
-    public Account getTargetAccount() {
-        return targetAccount;
-    }
-
-    public void setTargetAccount(Account targetAccount) {
-        this.targetAccount = targetAccount;
     }
 
     public String formatDoubleToCurrency(double amount) {

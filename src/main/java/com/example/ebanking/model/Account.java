@@ -65,9 +65,6 @@ public class Account implements Serializable {
     @OneToMany(mappedBy = "sourceAccount", cascade = CascadeType.ALL)
     private List<Transaction> sourceTransactions;
 
-    @OneToMany(mappedBy = "targetAccount", cascade = CascadeType.ALL)
-    private List<Transaction> targetTransactions;
-
     public static enum AccountStatus {
 
         ACTIVE, BLOCKED, INACTIVE
@@ -83,7 +80,6 @@ public class Account implements Serializable {
         this.status = AccountStatus.ACTIVE;
         this.openedDate = DateTime.now();
         this.sourceTransactions = new ArrayList<Transaction>();
-        this.targetTransactions = new ArrayList<Transaction>();
     }
 
     public Account(double startingBalance, Client client) {
@@ -94,7 +90,6 @@ public class Account implements Serializable {
         this.status = AccountStatus.ACTIVE;
         this.openedDate = DateTime.now();
         this.sourceTransactions = new ArrayList<Transaction>();
-        this.targetTransactions = new ArrayList<Transaction>();
     }
 
     public Long getAccountId() {
@@ -161,14 +156,6 @@ public class Account implements Serializable {
         this.sourceTransactions = sourceTransactions;
     }
 
-    public List<Transaction> getTargetTransactions() {
-        return targetTransactions;
-    }
-
-    public void setTargetTransactions(List<Transaction> targetTransactions) {
-        this.targetTransactions = targetTransactions;
-    }
-
     public String getCurrencySign() {
         return currencySign;
     }
@@ -216,7 +203,14 @@ public class Account implements Serializable {
         return accounts;
     }
 
-    public boolean withdraw(double amount) throws IllegalAccessException, InvocationTargetException {
+    public static ArrayList<Account> getAllClientAccounts(Long clientId) {
+        ArrayList<Account> accounts;
+        ObjectDao accountDao = new ObjectDao();
+        accounts = accountDao.getAllObjectsByCondition("Account", "client_userId = " + clientId.toString());
+        return accounts;
+    }
+
+    public boolean withdraw(double amount, String description) throws IllegalAccessException, InvocationTargetException {
         boolean isDone = false;
 
         double balance = this.getBalance();
@@ -225,7 +219,7 @@ public class Account implements Serializable {
         try {
             this.updateAccount();
             isDone = true;
-            Transaction tr = new Transaction(this, null, amount, 0);
+            Transaction tr = new Transaction(this, amount, 0, description);
             tr.saveTransaction();
         } catch (Exception e) {
             return false;
@@ -233,7 +227,7 @@ public class Account implements Serializable {
         return isDone;
     }
 
-    public boolean deposite(double amount) throws IllegalAccessException, InvocationTargetException {
+    public boolean deposite(double amount, String description) throws IllegalAccessException, InvocationTargetException {
         boolean isDone = false;
 
         double balance = this.getBalance();
@@ -242,7 +236,7 @@ public class Account implements Serializable {
         try {
             this.updateAccount();
             isDone = true;
-            Transaction tr = new Transaction(this, null, amount, 0);
+            Transaction tr = new Transaction(this, 0, amount, description);
             tr.saveTransaction();
         } catch (Exception e) {
             return false;
@@ -250,7 +244,7 @@ public class Account implements Serializable {
         return isDone;
     }
 
-    public static boolean transfer(Account sourceAccount, Account targetAccount, double amount) {
+    public static boolean transfer(Account sourceAccount, Account targetAccount, double amount, String description) {
 
         double sourceBalance = sourceAccount.getBalance();
         double targetBalance = targetAccount.getBalance();
@@ -268,8 +262,8 @@ public class Account implements Serializable {
                 targetAccount.updateAccount();
 
                 isDone = true;
-                Transaction sourceTransaction = new Transaction(sourceAccount, null, amount, 0);
-                Transaction targetTransaction = new Transaction(targetAccount, null, 0, amount);
+                Transaction sourceTransaction = new Transaction(sourceAccount, amount, 0, description);
+                Transaction targetTransaction = new Transaction(targetAccount, 0, amount, description);
                 sourceTransaction.saveTransaction();
                 targetTransaction.saveTransaction();
             } catch (Exception e) {
