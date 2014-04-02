@@ -45,25 +45,19 @@ public class Transaction implements Serializable {
 
     @Column
     private String credit;
-   
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Account sourceAccount;
-    
-    
-
 
     public Transaction() {
     }
 
-    public Transaction(Account sourceAccount,  double debit, double credit,String description) {
+    public Transaction(Account sourceAccount, double debit, double credit, String description) {
         this.sourceAccount = sourceAccount;
         this.description = description;
         this.debit = formatDoubleToCurrency(debit);
         this.credit = formatDoubleToCurrency(credit);
-        this.transactionTime=DateTime.now();
-                
-                
+        this.transactionTime = DateTime.now();
 
     }
 
@@ -122,7 +116,7 @@ public class Transaction implements Serializable {
             String currencyString = NumberFormat.getCurrencyInstance(Locale.CANADA).format(amount);
             //return currencyString.replaceAll("\\.00", "");
             return currencyString;
-           
+
         }
     }
 
@@ -158,10 +152,16 @@ public class Transaction implements Serializable {
     }
 
     public static ArrayList<Transaction> getTransactions() {
-        ArrayList<Transaction> accounts;
+        ArrayList<Transaction> transactions;
         ObjectDao accountDao = new ObjectDao();
-        accounts = accountDao.getAllObjects("Transaction");
-        return accounts;
+        transactions = accountDao.getAllObjects("Transaction");
+        return transactions;
     }
 
+    public static ArrayList<Transaction> getAccountTransactions(String accountNumber) {
+        ArrayList<Transaction> transactions;
+        ObjectDao accountDao = new ObjectDao();
+        transactions = accountDao.getAllObjectsByCondition("Transaction", "sourceAccount_accountId = " + accountNumber);
+        return transactions;
+    }
 }

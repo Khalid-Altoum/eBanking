@@ -53,13 +53,14 @@ public class test1DB {
 //
 //        cl.setAccounts(accounts);
 //        long id = cl.saveUser();
-        Client cl2 = Client.getClientsById(8);
         
-        List ss = Account.getPersonalAccount(cl2.getAccounts());
-        
-        for (Iterator<Account> it = ss.iterator(); it.hasNext();) {
-            String ac = it.next().toString();
-            System.out.println(ac);
-        }
+//        Client cl2 = Client.getClientsById(8);
+//        
+//        List ss = Account.getPersonalAccount(cl2.getAccounts());
+//        
+//        for (Iterator<Account> it = ss.iterator(); it.hasNext();) {
+//            String ac = it.next().toString();
+//            System.out.println(ac);
+//        }
     }
 }

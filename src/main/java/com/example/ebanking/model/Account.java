@@ -32,10 +32,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
-/**
- *
- * @author Peyman
- */
+
 @Entity
 @Table
 @Inheritance(strategy = InheritanceType.JOINED)

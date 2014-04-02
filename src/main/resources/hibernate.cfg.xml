@@ -34,6 +34,8 @@
     <mapping class="com.example.ebanking.model.Client"/>
     <mapping class="com.example.ebanking.model.Employee"/>
     
+    <mapping class="com.example.ebanking.model.ClientCard"/>
+    
     <mapping class="com.example.ebanking.model.InvestmentPlan"/>
     <mapping class="com.example.ebanking.model.OpenTermInvestment"/>
     <mapping class="com.example.ebanking.model.ClosedTermInvestment"/>
