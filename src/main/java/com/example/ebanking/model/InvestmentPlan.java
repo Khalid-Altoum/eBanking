@@ -11,6 +11,7 @@ import com.example.ebanking.persistence.HibernateUtil;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,17 +21,22 @@ import javax.persistence.Table;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
-/**
- *
- * @author HMD
- */
+
 @Entity
 @Table(name = "InvestmentPlan")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class InvestmentPlan implements Serializable{
+    
     @Id
     @GeneratedValue
     private Long investmentPlanId;
+    
+    @Column
+    private double penaltyPercent;
+    
+    @Column
+    private double investmentReturnsPercent;
+    
 
     public Long getInvestmentPlanId() {
         return investmentPlanId;
@@ -39,8 +45,23 @@ public class InvestmentPlan implements Serializable{
     public void setInvestmentPlanId(Long id) {
         this.investmentPlanId = id;
     }
-    
-    
+
+    public double getPenaltyPercent() {
+        return penaltyPercent;
+    }
+
+    public void setPenaltyPercent(double penaltyPercent) {
+        this.penaltyPercent = penaltyPercent;
+    }
+
+    public double getInvestmentReturnsPercent() {
+        return investmentReturnsPercent;
+    }
+
+    public void setInvestmentReturnsPercent(double investmentReturnsPercent) {
+        this.investmentReturnsPercent = investmentReturnsPercent;
+    }
+      
 
     public long saveInvestmentPlan()  {
         ObjectDao<InvestmentPlan> investmentPlanDao = new ObjectDao<InvestmentPlan>();
@@ -80,3 +101,6 @@ public class InvestmentPlan implements Serializable{
         return investmentPlans;
     }
 }
+ 
+
+
