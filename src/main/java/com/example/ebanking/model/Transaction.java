@@ -39,12 +39,14 @@ public class Transaction implements Serializable {
 
     @Column
     private String description;
-
     @Column
-    private String debit;
-
+    private double debit;
     @Column
-    private String credit;
+    private String formattedDebit;
+    @Column
+    private double credit;
+    @Column
+    private String formattedCredit;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Account sourceAccount;
@@ -55,8 +57,10 @@ public class Transaction implements Serializable {
     public Transaction(Account sourceAccount, double debit, double credit, String description) {
         this.sourceAccount = sourceAccount;
         this.description = description;
-        this.debit = formatDoubleToCurrency(debit);
-        this.credit = formatDoubleToCurrency(credit);
+        this.debit = debit;
+        this.formattedDebit = formatDoubleToCurrency(debit);
+        this.credit = credit;
+        this.formattedCredit = formatDoubleToCurrency(credit);
         this.transactionTime = DateTime.now();
 
     }
@@ -85,20 +89,36 @@ public class Transaction implements Serializable {
         this.description = description;
     }
 
-    public String getDebit() {
+    public double getDebit() {
         return debit;
     }
 
-    public void setDebit(String debit) {
+    public void setDebit(double debit) {
         this.debit = debit;
     }
 
-    public String getCredit() {
+    public double getCredit() {
         return credit;
     }
 
-    public void setCredit(String credit) {
+    public void setCredit(double credit) {
         this.credit = credit;
+    }
+
+    public String getFormattedDebit() {
+        return formattedDebit;
+    }
+
+    public void setFormattedDebit(String formattedDebit) {
+        this.formattedDebit = formattedDebit;
+    }
+
+    public String getFormattedCredit() {
+        return formattedCredit;
+    }
+
+    public void setFormattedCredit(String formattedCredit) {
+        this.formattedCredit = formattedCredit;
     }
 
     public Account getSourceAccount() {
