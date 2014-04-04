@@ -62,16 +62,16 @@ public class LoginBean {
             request.login(this.accountNumber, this.password);
         } catch (ServletException e) {
             context.addMessage(null, new FacesMessage("Login failed."));
-            return "error";
+            return "loginError";
         } finally {
             if (this.accountNumber != null) {
                 HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-                session.setAttribute("accountNumber", this.accountNumber);
+                session.setAttribute("clientNumber", this.accountNumber);
                 session.setAttribute("roleName", /* User.getRoleFromUserEmail(this.username) */ "");
                 // userRole = User.getRoleFromUserEmail(this.username);
             }
         }
-        return "home";
+        return "accounts";
     }
 
     public String logout() {
@@ -81,9 +81,9 @@ public class LoginBean {
             request.logout();
         } catch (ServletException e) {
             context.addMessage(null, new FacesMessage("Logout failed."));
-            return "error";
+            return "loginError";
         }
-        return "/index";
+        return "/accounts";
     }
 
 }

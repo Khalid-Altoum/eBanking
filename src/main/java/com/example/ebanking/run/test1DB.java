@@ -62,5 +62,42 @@ public class test1DB {
 //            String ac = it.next().toString();
 //            System.out.println(ac);
 //        }
+      
+        
+        Address address = new Address();
+        address.setApartmentNumber("1502");
+        address.setCity("Montreal");
+        address.setCountry("Canada");
+        address.setPostalCode("H3H 2J2");
+        address.setProvince("Quebec");
+        address.setStreetName("Rue St.Mathieu");
+        address.setStreetNumber("2055");
+        address.saveAddress();
+        
+        Client client = new Client();
+        client.setEmail("pradeep.samuel90@gmail.com");
+        client.setFirstName("Pradeep Samuel");
+        client.setGender("Male");
+        client.setLastName("Daniel");
+        client.setPassword("1234");
+        client.setPhoneNumber("514-430-8730");
+        client.setUserName("pradeep samuel");
+        client.setUserAddress(address);
+        client.setAge(23);
+        
+        Account account = new Account(1200, client);
+        account.setAccountNumber("345662636251673");
+        account.setCurrency("CAD");
+        account.setCurrencySign("$");
+        account.setOpenedDate(new DateTime());
+        account.setStatus(Account.AccountStatus.ACTIVE);
+        
+        account.saveAccount();
+        
+        ArrayList<Account> accounts = new ArrayList();
+        accounts.add(account);
+        
+        client.setAccounts(accounts);
+        client.saveUser();
     }
 }

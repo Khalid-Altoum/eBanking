@@ -14,8 +14,8 @@ body {
 	height: 212px;
 }
 #topheader {
-	float: right;
-	width: 526px;
+	float: left;
+	width: 950px;
 	height: 97px;
 	background-color: #F0F0F0;
 	position: relative
@@ -51,7 +51,7 @@ body {
 }
 #footer {
 	float: left;
-	width: 780px;
+	width: 950px;
 	background-color: #F0F0F0;
 	padding: 10px;
 }

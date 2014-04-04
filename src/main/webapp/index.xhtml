@@ -8,25 +8,36 @@
         <link rel="stylesheet" href="/eBanking/css/style.css" type="text/css" />
     </h:head>
     <h:body>
-        <ui:insert name="header" >
-            <ui:include src="/templates/header.xhtml" />
-        </ui:insert>
-        <h:form>
-            <table>
-                <tr>
-                    <th>Account Number:</th>                  
-                    <td><h:inputText id="accountNumberInput" value="#{loginBean.accountNumber}" 
-                                     required="true" class="input-block-level"/></td>
-                </tr>
-                <tr>
-                    <th>Password:</th>
-                    <td><h:inputSecret id="passwordInput" value="#{loginBean.password}" 
-                                       required="true" class="input-block-level"/></td>
-                </tr>
-            </table><br/>
-        </h:form>
+        <div id="header">
+            <ui:insert name="header" >
+                <ui:include src="/template/header.xhtml" />
+            </ui:insert>
+        </div>
+        <div id="contenttext" style="width: 800px; font-size: 13px; padding:148px;">
+            <div class="bodytext">
+                <h:form>
+                    <table>
+                        <tr>
+                            <th>Account Number:</th>                  
+                            <td><h:inputText id="accountNumberInput" value="#{loginBean.accountNumber}" 
+                                             required="true" class="input-block-level" /></td>
+                        </tr>
+                        <tr>
+                            <th>Password:</th>
+                            <td><h:inputSecret id="passwordInput" value="#{loginBean.password}" 
+                                               required="true" class="input-block-level"/></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><h:commandButton value="Login" 
+                                                 action="#{loginBean.login}" class="btn btn-primary"/></td>
+                        </tr>
+                    </table><br/>
+                </h:form>
+            </div>
+        </div>
         <ui:insert name="footer">
-            <ui:include src="/templates/footer.xhtml" />
+            <ui:include src="/template/footer.xhtml" />
         </ui:insert>
     </h:body>
 </html>

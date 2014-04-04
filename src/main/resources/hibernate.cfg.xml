@@ -21,7 +21,7 @@
     <mapping class="com.example.ebanking.model.ChequingAccount"/>
     <mapping class="com.example.ebanking.model.SavingAccount"/>
     <mapping class="com.example.ebanking.model.InvestmentAccount"/>
-    <mapping class="com.example.ebanking.model.CreditAccount"/>
+    <!--<mapping class="com.example.ebanking.model.CreditAccount"/>-->
     <mapping class="com.example.ebanking.model.PayeeAccount"/>
     
     <mapping class="com.example.ebanking.model.Payee"/>
