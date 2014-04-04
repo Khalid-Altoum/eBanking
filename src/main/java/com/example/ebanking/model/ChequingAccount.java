@@ -63,11 +63,11 @@ public class ChequingAccount extends Account implements Serializable {
     }
 
     @Override
-    public boolean withdraw(double amount) throws IllegalAccessException, InvocationTargetException {
+    public boolean withdraw(double amount,String description) throws IllegalAccessException, InvocationTargetException {
         boolean isDone = false;
 
         if (this.getBalance() >= amount) {
-            super.withdraw(amount);
+            super.withdraw(amount,description);
             isDone = true;
         }
         return isDone;

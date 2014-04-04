@@ -22,6 +22,8 @@
     <mapping class="com.example.ebanking.model.SavingAccount"/>
     <mapping class="com.example.ebanking.model.InvestmentAccount"/>
     <mapping class="com.example.ebanking.model.CreditAccount"/>
+    <mapping class="com.example.ebanking.model.PayeeAccount"/>
+    
     <mapping class="com.example.ebanking.model.Payee"/>
     
     <mapping class="com.example.ebanking.model.Transaction"/>
@@ -31,6 +33,8 @@
     <mapping class="com.example.ebanking.model.User"/>
     <mapping class="com.example.ebanking.model.Client"/>
     <mapping class="com.example.ebanking.model.Employee"/>
+    
+    <mapping class="com.example.ebanking.model.ClientCard"/>
     
     <mapping class="com.example.ebanking.model.InvestmentPlan"/>
     <mapping class="com.example.ebanking.model.OpenTermInvestment"/>

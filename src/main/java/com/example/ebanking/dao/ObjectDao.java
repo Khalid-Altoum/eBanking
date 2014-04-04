@@ -84,27 +84,8 @@ public class ObjectDao<T> {
         }
 
     }
-    /* Method to  READ all the Physicians */
 
-    public ArrayList getAllObjects(String tableName) {
-        Session session = factory.openSession();
-        ArrayList objects = null;
-        Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-            // Get All Physicians 
-            objects = (ArrayList) session.createQuery("FROM " + tableName).list();
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-        return objects;
-    }
+    
     /* Method to UPDATE salary for an employee */
 
     public  void updateObject(Object object,long id,Class<T> ClassName) throws IllegalAccessException, InvocationTargetException {
@@ -147,5 +128,46 @@ public class ObjectDao<T> {
         } finally {
             session.close();
         }
+    }
+    
+    
+    public ArrayList getAllObjects(String tableName) {
+        Session session = factory.openSession();
+        ArrayList objects = null;
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            // Get All Physicians 
+            objects = (ArrayList) session.createQuery("FROM " + tableName).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return objects;
+    }
+    
+    public ArrayList getAllObjectsByCondition(String tableName,String whereString) {
+        Session session = factory.openSession();
+        ArrayList objects = null;
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            // Get All Physicians 
+            objects = (ArrayList) session.createQuery("FROM " + tableName+ " WHERE "+ whereString ).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return objects;
     }
 }
