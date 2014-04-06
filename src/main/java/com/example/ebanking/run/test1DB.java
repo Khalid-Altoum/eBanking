@@ -28,26 +28,28 @@ public class test1DB {
 //        cl.setUserName("01234567890");
 //        cl.setPassword("1234");
 //        cl.setPhoneNumber("514-000-9999");
-//
-//        //  cl = Client.getClientsById(id);
+//        //cl.setClientCard(new ClientCard("12-34-56", DateTime.now(),cl));
+//        cl.saveUser();
+////
+//         // cl = Client.getClientsById(1);
 //        ChequingAccount ca = new ChequingAccount();
-//        ca.setAccountNumber("Check002");
+//        ca.setAccountNumber("Check001");
 //        ca.setBalance(50000);
 //        ca.setOpenedDate(DateTime.now());
 //        ca.setClient(cl);
-//
+////
 //        SavingAccount sa = new SavingAccount();
-//        sa.setAccountNumber("Check002");
+//        sa.setAccountNumber("Saving001");
 //        sa.setBalance(50000);
 //        sa.setOpenedDate(DateTime.now());
 //        sa.setClient(cl);
-//
+////
 //        List<Account> accounts = new ArrayList<Account>();
 //        accounts.add(sa);
 //        accounts.add(ca);
-//
+////
 //        cl.setAccounts(accounts);
-//        long id = cl.saveUser();
+//         cl.saveUser();
         
 //        Client cl2 = Client.getClientsById(8);
 //        
@@ -133,17 +135,17 @@ public class test1DB {
 //        address.setStreetNumber("2055");
 //        address.saveAddress();
 ////        
-        Client client = new Client();
-        client.setEmail("pradeep.samuel90@gmail.com");
-        client.setFirstName("Pradeep Samuel");
-        client.setGender("Male");
-        client.setLastName("Daniel");
-        client.setPassword("1234");
-        client.setPhoneNumber("514-430-8730");
-        client.setUserName("pradeep samuel");
-        client.setUserAddress(null);
-        client.setAge(23);
-        client.saveUser();
+//        Client client = new Client();
+//        client.setEmail("pradeep.samuel90@gmail.com");
+//        client.setFirstName("Pradeep Samuel");
+//        client.setGender("Male");
+//        client.setLastName("Daniel");
+//        client.setPassword("1234");
+//        client.setPhoneNumber("514-430-8730");
+//        client.setUserName("pradeep samuel");
+//        client.setUserAddress(null);
+//        client.setAge(23);
+//        client.saveUser();
 ////       
 //        Account account = new Account(1200, client);
 //        account.setAccountNumber("345662636251673");
@@ -188,9 +190,11 @@ public class test1DB {
 //        cp.setCashAdvanceInterest(1);
 //        cp.setInterestRate(0.5);
 //        cp.saveCreditPlan();
-        Client c = Client.getClientsById(1);
-        ClientCard cCard= new ClientCard("112233445566", DateTime.now(),c);
-        cCard.saveClientCard();
         
+        Client c = Client.getClientsById(3);
+        ClientCard cCard= new ClientCard("12-AA-56", DateTime.now(),c);
+        cCard.saveClientCard();
+
+     
     }
 }

@@ -11,13 +11,10 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import org.hibernate.HibernateException;
@@ -35,15 +32,16 @@ import org.hibernate.criterion.Restrictions;
 @PrimaryKeyJoinColumn(name = "userId")
 public class Client extends User implements Serializable {
 
-    @OneToOne(mappedBy = "relatedClient")
-    private ClientCard clientCard;
-
     @Column
     private long age;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Account> accounts;
+
+    @OneToMany(mappedBy = "relatedClient", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<ClientCard> clientCards;
 
     public long getAge() {
         return age;
@@ -60,6 +58,16 @@ public class Client extends User implements Serializable {
     public void setAccounts(List<Account> accounts) {
         this.accounts = accounts;
     }
+
+    public List<ClientCard> getClientCards() {
+        return clientCards;
+    }
+
+    public void setClientCards(List<ClientCard> clientCards) {
+        this.clientCards = clientCards;
+    }
+
+   
 
     @Override
     public long saveUser() {
@@ -119,5 +127,7 @@ public class Client extends User implements Serializable {
         }
         return clientHolder;
     }
+
+    
 
 }

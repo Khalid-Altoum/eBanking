@@ -9,16 +9,22 @@ import com.example.ebanking.dao.ObjectDao;
 import com.example.ebanking.persistence.HibernateUtil;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
@@ -28,7 +34,7 @@ public class ClientCard implements Serializable {
 
     @Id
     @GeneratedValue
-    protected Long cardId;
+    protected Long clientCardId;
 
     @Column
     private String cardNumber;
@@ -37,24 +43,25 @@ public class ClientCard implements Serializable {
     @Type(type = "org.joda.time.contrib.hibernate.PersistentDateTime")
     private DateTime expiryDate;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Client relatedClient;
 
     public ClientCard() {
     }
 
     public ClientCard(String cardNumber, DateTime expiryDate, Client client) {
-        this.relatedClient = client;
+        
         this.cardNumber = cardNumber;
         this.expiryDate = expiryDate;
+        this.relatedClient = client;
     }
 
-    public Long getCardId() {
-        return cardId;
+    public Long getClientCardId() {
+        return clientCardId;
     }
 
-    public void setCardId(Long cardId) {
-        this.cardId = cardId;
+    public void setClientCardId(Long clientCardId) {
+        this.clientCardId = clientCardId;
     }
 
     public String getCardNumber() {
@@ -83,28 +90,31 @@ public class ClientCard implements Serializable {
 
     public long saveClientCard() throws IllegalAccessException, InvocationTargetException {
         ObjectDao<ClientCard> accountDao = new ObjectDao<ClientCard>();
-        updateRelatedClientUserName(this.relatedClient);
 
-        return accountDao.addObject(this);
+        long cardId= accountDao.addObject(this);
+        updateRelatedClientUserName(this.relatedClient,cardId);
+        return cardId;
 
     }
 
-    private void updateRelatedClientUserName(Client relatedClient) throws IllegalAccessException, InvocationTargetException {
-        Client client;
-        client = Client.getClientsById(relatedClient.getUserId());
-        client.setUserName(cardNumber);
-        client.updateUser();
+    private void updateRelatedClientUserName(Client relatedClient,long cardId) throws IllegalAccessException, InvocationTargetException {
+        
+        relatedClient.setUserName(this.cardNumber);
+        ArrayList<ClientCard> cards = new ArrayList<ClientCard>();
+        cards.add(ClientCard.getClientCardById(cardId));
+        relatedClient.setClientCards(cards);
+        relatedClient.updateUser();
     }
 
     public void updateClientCard() throws IllegalAccessException, InvocationTargetException {
         ObjectDao<ClientCard> accountDao = new ObjectDao<ClientCard>();
-        accountDao.updateObject(this, this.getCardId(), ClientCard.class);
-        updateRelatedClientUserName(this.relatedClient);
+        accountDao.updateObject(this, this.getClientCardId(), ClientCard.class);
+        updateRelatedClientUserName(this.relatedClient,this.getClientCardId());
     }
 
     public void deleteClientCard() throws IllegalAccessException, InvocationTargetException {
         ObjectDao<ClientCard> accountDao = new ObjectDao<ClientCard>();
-        accountDao.deleteObject(this, this.getCardId(), ClientCard.class);
+        accountDao.deleteObject(this, this.getClientCardId(), ClientCard.class);
     }
 
     public static ClientCard getClientCardById(long id) {
