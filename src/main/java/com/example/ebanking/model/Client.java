@@ -24,6 +24,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -32,15 +33,15 @@ import org.hibernate.annotations.LazyCollectionOption;
 @Entity
 @Table
 @PrimaryKeyJoinColumn(name = "userId")
-public class Client extends User implements Serializable{
+public class Client extends User implements Serializable {
+
     @OneToOne(mappedBy = "relatedClient")
     private ClientCard clientCard;
-    
+
     @Column
     private long age;
-    
-    
-    @OneToMany(mappedBy = "client",cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Account> accounts;
 
@@ -59,11 +60,9 @@ public class Client extends User implements Serializable{
     public void setAccounts(List<Account> accounts) {
         this.accounts = accounts;
     }
-    
-    
-    
+
     @Override
-     public long saveUser()  {
+    public long saveUser() {
         ObjectDao<Client> userDao = new ObjectDao<Client>();
         return userDao.addObject(this);
     }
@@ -102,6 +101,23 @@ public class Client extends User implements Serializable{
         clients = userDao.getAllObjects("Client");
         return clients;
     }
-    
+
+    public static Client getClientByAccountNumber(String clientNumber) {
+        Client clientHolder = null;
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            clientHolder = (Client) session.createCriteria(User.class).
+                    add(Restrictions.eq("username", clientNumber)).
+                    uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return clientHolder;
+    }
 
 }

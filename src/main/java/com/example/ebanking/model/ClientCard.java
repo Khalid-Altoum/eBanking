@@ -37,13 +37,14 @@ public class ClientCard implements Serializable {
     @Type(type = "org.joda.time.contrib.hibernate.PersistentDateTime")
     private DateTime expiryDate;
 
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Client relatedClient;
-   
+
     public ClientCard() {
     }
 
-    public ClientCard(String cardNumber, DateTime expiryDate) {
+    public ClientCard(String cardNumber, DateTime expiryDate, Client client) {
+        this.relatedClient = client;
         this.cardNumber = cardNumber;
         this.expiryDate = expiryDate;
     }
@@ -82,15 +83,15 @@ public class ClientCard implements Serializable {
 
     public long saveClientCard() throws IllegalAccessException, InvocationTargetException {
         ObjectDao<ClientCard> accountDao = new ObjectDao<ClientCard>();
-        updateRelatedClientUserName();
-        
+        updateRelatedClientUserName(this.relatedClient);
+
         return accountDao.addObject(this);
-        
+
     }
 
-    private void updateRelatedClientUserName() throws IllegalAccessException, InvocationTargetException {
-        long clientId=this.relatedClient.getUserId();
-        Client client=Client.getClientsById(clientId);
+    private void updateRelatedClientUserName(Client relatedClient) throws IllegalAccessException, InvocationTargetException {
+        Client client;
+        client = Client.getClientsById(relatedClient.getUserId());
         client.setUserName(cardNumber);
         client.updateUser();
     }
@@ -98,7 +99,7 @@ public class ClientCard implements Serializable {
     public void updateClientCard() throws IllegalAccessException, InvocationTargetException {
         ObjectDao<ClientCard> accountDao = new ObjectDao<ClientCard>();
         accountDao.updateObject(this, this.getCardId(), ClientCard.class);
-        updateRelatedClientUserName();
+        updateRelatedClientUserName(this.relatedClient);
     }
 
     public void deleteClientCard() throws IllegalAccessException, InvocationTargetException {

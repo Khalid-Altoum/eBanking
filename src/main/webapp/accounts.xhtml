@@ -1,12 +1,69 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Accounts</title>
+        <link rel="stylesheet" href="/eBanking/css/style.css" type="text/css" />
     </h:head>
     <h:body>
-        
+        <ui:insert name="header" >
+            <ui:include src="/template/header.xhtml" />
+        </ui:insert>
+        <!--        <ui:insert name="left-panel" >
+                    <ui:include src="/template/left_panel.xhtml" />
+                </ui:insert>-->
+        <div id="contenttext" style="width: 800px; font-size: 13px; padding:148px;">
+            <div class="bodytext" style="padding:20px;">
+                <h3 align="left" style="color:#CC0000"><strong>My Account Summary</strong></h3>
+                <ul>
+                    <li style="float:left">Bank Accounts</li>
+                    <br />
+                    <h:dataTable value="#{accountsBean.personalAccountsList}" var="account"
+                                 styleClass="order-table"
+                                 headerClass="order-table-header"
+                                 rowClasses="order-table-odd-row,order-table-even-row">
+                        <h:column>
+                            <f:facet name="header">Type</f:facet>
+                                Personal
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Number</f:facet>
+                                #{account.accountNumber}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Balance</f:facet>
+                                #{account.balance}
+                        </h:column>
+                    </h:dataTable>
+                    <br />
+                    <li style="float:left">Investments</li>
+                    <br />
+                    <h:dataTable value="#{accountsBean.investmentAccountsList}" var="account"
+                                 styleClass="order-table"
+                                 headerClass="order-table-header"
+                                 rowClasses="order-table-odd-row,order-table-even-row">
+                        <h:column>
+                            <f:facet name="header">Type</f:facet>
+                                Personal
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Number</f:facet>
+                                #{account.accountNumber}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Balance</f:facet>
+                                #{account.balance}
+                        </h:column>
+                    </h:dataTable>
+                </ul>
+            </div>
+        </div>
+        <ui:insert name="footer">
+            <ui:include src="/template/footer.xhtml" />
+        </ui:insert>
     </h:body>
 </html>
 
