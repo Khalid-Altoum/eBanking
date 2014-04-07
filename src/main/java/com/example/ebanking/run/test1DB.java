@@ -9,6 +9,8 @@ import com.example.ebanking.model.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import org.joda.time.DateTime;
 
 /**
@@ -157,15 +159,15 @@ public class test1DB {
 //        
 //        client.setAccounts(accounts);
 //        client.saveUser();
-//        Transaction tr=new Transaction();
-//        tr.setDebit(50);
-//        tr.setDescription("Withdrwal of 50 $");
-//        tr.setFormattedDebit("$$$");
-//        tr.setSourceAccount(ca);
-//        tr.setTransactionId(Long.MIN_VALUE);
-//        tr.setTransactionTime(DateTime.now());
-//        tr.saveTransaction();
-//        ca.updateAccount();
+        ChequingAccount ca = ChequingAccount.getCheckingAccountById(2);
+        Transaction tr=new Transaction();
+        tr.setDebit(50);
+        tr.setDescription("Withdrwal of $50");
+        tr.setFormattedDebit("$50");
+        tr.setSourceAccount(ca);
+        tr.setTransactionTime(DateTime.now());
+        tr.saveTransaction();
+        ca.updateAccount();
         
 //        CreditAccount cAcc = new CreditAccount();
 ////        long  temp=145648;
@@ -191,10 +193,15 @@ public class test1DB {
 //        cp.setInterestRate(0.5);
 //        cp.saveCreditPlan();
         
-        Client c = Client.getClientsById(3);
-        ClientCard cCard= new ClientCard("12-AA-56", DateTime.now(),c);
-        cCard.saveClientCard();
-
-     
+//        Client c = Client.getClientsById(1);
+//        ClientCard cCard= new ClientCard("12-AA-56", DateTime.now(),c);
+//        cCard.saveClientCard();
+        
+        
+        
+        
+//        Client client = Client.getClientByAccountNumber("12-AA-56");
+//        ArrayList<Account> allAccounts = Account.getAllClientAccounts(client.getUserId());
+//        System.out.println("=====>" + allAccounts);
     }
 }

@@ -8,6 +8,7 @@ package com.example.ebanking.bean;
 import com.example.ebanking.model.Account;
 import com.example.ebanking.model.Client;
 import java.util.ArrayList;
+import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -67,5 +68,13 @@ public class AccountsBean {
         HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
         String clientNumber = (String) session.getAttribute("clientNumber");
         return Client.getClientByAccountNumber(clientNumber);
+    }
+
+    public String naviagateToAccount() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        Map<String,String> parameters = context.getExternalContext().getRequestParameterMap();
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+        session.setAttribute("selectedAccountId", parameters.get("selectedAccountId"));
+        return "accountsSummary";
     }
 }

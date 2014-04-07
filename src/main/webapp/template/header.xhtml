@@ -16,10 +16,17 @@
                     </div>
                 </div>
                 <div id="toplinks" class="smallgraytext">
-                    <a href="login.jsp">Home</a> | <a href="#">Sitemap</a> | <a href="mailto:obs.inse620@gmail.com?Subject=Need%20Help" target="_top">
+                    <h:form rendered="#{not empty request.remoteUser}">
+                        <h:commandLink value="Logout" action="#{loginBean.logout}" /> |
+                        <h:link value="Accounts" outcome="/accounts" />
+                    </h:form>
+                    <h:link value="Login" outcome="index" rendered="#{empty request.remoteUser}" /> | <a href="mailto:obs.inse620@gmail.com?Subject=Need%20Help" target="_top">
                         Contact Us</a>
                 </div>
             </header>
+            <div>
+
+            </div>
         </ui:composition>
     </h:body>
 </html>

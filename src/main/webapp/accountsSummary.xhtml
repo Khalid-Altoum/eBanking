@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Account Summary</title>
+        <link rel="stylesheet" href="/eBanking/css/style.css" type="text/css" />
+    </h:head>
+    <h:body>
+        <ui:insert name="header" >
+            <ui:include src="/template/header.xhtml" />
+        </ui:insert>
+        <div id="contenttext" style="width: 800px; font-size: 13px; padding:148px;">
+            <h3>Account Summary</h3>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Account No.</td>
+                        <td>#{accountSummary.selectedAccount.accountNumber}</td>
+                    </tr>
+                    <tr>
+                        <td>Account Type</td>
+                        <td>#{accountSummary.accountType}</td>
+                    </tr>
+                    <tr>
+                        <td>Account Balance</td>
+                        <td>#{accountSummary.selectedAccount.balance}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3>Transaction History</h3>
+            <h:dataTable value="#{accountSummary.selectedAccount.sourceTransactions}" var="transaction"
+                         styleClass="order-table"
+                         headerClass="order-table-header"
+                         rowClasses="order-table-odd-row,order-table-even-row">
+                <h:column>
+                    <f:facet name="header">Transaction ID</f:facet>
+                        #{transaction.transactionId}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Date</f:facet>
+                    #{transaction.transactionTime.year}/
+                    #{transaction.transactionTime.monthOfYear}/
+                    #{transaction.transactionTime.dayOfMonth} -
+                    #{transaction.transactionTime.hourOfDay}:
+                    #{transaction.transactionTime.minuteOfHour}:
+                    #{transaction.transactionTime.secondOfMinute}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Description</f:facet>
+                        #{transaction.description}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Credit</f:facet>
+                        #{transaction.formattedCredit}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Debit</f:facet>
+                        #{transaction.formattedDebit}
+                </h:column>
+            </h:dataTable>
+        </div>
+        <ui:insert name="footer">
+            <ui:include src="/template/footer.xhtml" />
+        </ui:insert>
+    </h:body>
+</html>
+

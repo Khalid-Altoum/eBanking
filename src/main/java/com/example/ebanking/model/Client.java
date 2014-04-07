@@ -116,7 +116,7 @@ public class Client extends User implements Serializable {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             clientHolder = (Client) session.createCriteria(User.class).
-                    add(Restrictions.eq("username", clientNumber)).
+                    add(Restrictions.eq("userName", clientNumber)).
                     uniqueResult();
         } catch (Exception e) {
             e.printStackTrace();

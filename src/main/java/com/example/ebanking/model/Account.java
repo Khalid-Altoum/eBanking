@@ -228,7 +228,7 @@ public class Account implements Serializable {
         return isDone;
     }
 
-    public boolean deposite(double amount, String description) throws IllegalAccessException, InvocationTargetException {
+    public boolean deposit(double amount, String description) throws IllegalAccessException, InvocationTargetException {
         boolean isDone = false;
 
         double balance = this.getBalance();
