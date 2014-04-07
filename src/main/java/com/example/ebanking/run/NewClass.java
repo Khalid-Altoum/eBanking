@@ -23,7 +23,7 @@ public class NewClass {
         open.saveInvestmentPlan();
     
     
-    
+        InvestmentAccount ia = new InvestmentAccount();
     
     
     

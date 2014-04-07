@@ -45,10 +45,11 @@ public class CreditAccount extends Account implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private CreditPlan creditPlan;
 
-    public CreditAccount() {
+    public CreditAccount() { super();
     }
 
     public CreditAccount(String creditCardNumber, double creditLimit, DateTime expiryDate, String cvs) {
+       super();
         this.setAccountNumber(creditCardNumber);
         
         this.availableCredit = creditLimit;

@@ -31,6 +31,16 @@ import org.joda.time.DateTimeUtils;
 @PrimaryKeyJoinColumn(name = "accountId")
 public class InvestmentAccount extends Account implements Serializable {
 
+    public InvestmentAccount() {
+        super();
+    }
+
+    public InvestmentAccount(DateTime startDate, DateTime endDate, InvestmentPlan investmentPlan) {
+        super();
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.investmentPlan = investmentPlan;
+    }
     @Column
     @Type(type = "org.joda.time.contrib.hibernate.PersistentDateTime")
     private DateTime startDate;

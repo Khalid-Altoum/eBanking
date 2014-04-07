@@ -23,15 +23,9 @@ import org.hibernate.Session;
 @PrimaryKeyJoinColumn(name = "accountId")
 public class SavingAccount extends Account implements Serializable{
     
-    private double withdraw;
-
-    public double getWithdraw() {
-        return withdraw;
-    }
-
-    public void setWithdraw(double withdraw) {
-        this.withdraw = withdraw;
-    }
+  
+    public SavingAccount(){super();}
+    
     
     
     
