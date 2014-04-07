@@ -12,9 +12,6 @@
         <ui:insert name="header" >
             <ui:include src="/template/header.xhtml" />
         </ui:insert>
-        <!-- <ui:insert name="left-panel" >
-                    <ui:include src="/template/left_panel.xhtml" />
-                </ui:insert> -->
         <div id="contenttext" style="width: 800px; font-size: 13px; padding:148px;">
             <div class="bodytext" style="padding:20px;">
                 <h3 align="left" style="color:#CC0000"><strong>My Account Summary</strong></h3>
@@ -65,9 +62,15 @@
                 </ul>
             </div>
         </div>
+                <div id="leftpannel">
+         <ui:insert name="left-panel" >
+                    <ui:include src="/template/left_panel.xhtml" />
+         </ui:insert> 
+            </div>
         <ui:insert name="footer">
             <ui:include src="/template/footer.xhtml" />
         </ui:insert>
+        
     </h:body>
 </html>
 

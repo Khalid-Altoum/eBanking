@@ -7,6 +7,7 @@ body {
     margin-right: 0px;
     margin-bottom: 0px;
 }
+
 #logo {
     float: left;
     background-image: url(/eBanking/img/tie_logo.gif);
@@ -15,28 +16,27 @@ body {
 }
 #topheader {
     float: left;
-    width: 950px;
+    width: 82%;
     height: 97px;
     background-color: #F0F0F0;
-    position: relative
 }
 #toplinks {
     position: absolute;
-    right: 10px;
+    right: 40px;
     top: 10px;
 }
 #menu {
-    float: right;
-    width: 526px;
+    float: left;
     height: 32px;
-    background-image: url(/eBanking/img/bg_menu.gif);
+    background-image: url('/eBanking/img/bg_menu.gif');
     background-repeat: repeat-x;
+    width: 82%;
 }
 #submenu {
     float: right;
     width: 526px;
     height: 32px;
-    background-image: url(/eBanking/img/bg_submenu.gif);
+    background-image: url(/eBanking/images/bg_submenu.gif);
     background-position: top;
     background-repeat: repeat-x;
 }
@@ -44,14 +44,18 @@ body {
     float: right;
     width: 526px;
 }
+#content{
+    width: 800px;
+    font-size: 13px;  
+}
 #leftpanel {
-    float: left;
-    width: 274px;
+    float: right;
+    width: 400px;
     margin-bottom: 50px;
 }
 #footer {
     float: left;
-    width: 950px;
+    width: 98%;
     background-color: #F0F0F0;
     padding: 10px;
 }
@@ -63,17 +67,36 @@ body {
     margin: 10px;
 }
 /*TEXT STYLES*/
-.bodytext {
+.authortext {
     font: 0.7em Tahoma, sans-serif;
     color: #666666;
     font-size: 13px;
 }
-.titletext {
+.bodytext {
     font: 0.7em Tahoma, sans-serif;
-    font-size: 36px;
-    font-weight: bold;
-    color: #CC0000;
+    color: #666666;
+    font-size: 13px;
+    padding:50px;
 }
+
+
+.logotitle{
+    font: 0.7em Tahoma, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: #FFFFFF;
+    padding-top: 40px;
+    padding-left: 40px;
+}
+.headerlogotitle{
+    font: 0.7em Tahoma, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: #FFFFFF;
+    padding-top: 40px;
+    padding-left: 60px;
+}
+
 .whitetitle {
     font: 0.7em Tahoma, sans-serif;
     font-size: 36px;
@@ -103,11 +126,20 @@ body {
     text-decoration: underline;
 }
 .smallgraytext {
-    font: 0.7em Tahoma, sans-serif;
-    font-size: 11px;
+    font: 0.7em Verdana, Geneva, sans-serif;
+    font-size: 12px;
     font-weight: bold;
     color: #999999;
+    padding: 9px;
+    text-align: center 
+    
 }
+
+.logintext{
+    color: #999999;
+    font-size: 9px;
+}
+
 .smallgraytext a {
     font: 0.7em Tahoma, sans-serif;
     font-size: 11px;
@@ -125,6 +157,13 @@ body {
     font-family: Tahoma, sans-serif;
     font-style: italic;
 }
+.largeredtext{
+    font-size: 20px;
+    font-weight:bold;
+    color: #CC0000;
+    font-family: Tahoma, sans-serif; 
+
+}
 .smallredtext a {
     font-size: 11px;
     font-weight: normal;
@@ -138,11 +177,24 @@ body {
 .smallredtext a:hover {
     text-decoration: underline;
 }
-.select {
-    height: 22px;
-    line-height: 18px;
-    padding: 2px 0;
+
+.titletext{
+    color:#CC0000;   
 }
+
+.fieldallign{
+    text-align:left;
+}
+
+.historystyle{
+    width: 400px;
+    border-collapse: collapse;
+    border: 1px;
+    padding-left: 40px;
+}
+
+
+
 #cssmenu .menu_link {
     padding-left: 20px;
 }
@@ -262,27 +314,4 @@ body {
 #cssmenu > ul li:hover>ul {
     top: 0px;
     opacity: 1;
-}
-
-.order-table{   
-    border-collapse:collapse;
-}
-
-.order-table-header{
-    text-align:center;
-    background:none repeat scroll 0 0 #E5E5E5;
-    border-bottom:1px solid #BBBBBB;
-    padding:16px;
-}
-
-.order-table-odd-row{
-    text-align:center;
-    background:none repeat scroll 0 0 #FFFFFFF;
-    border-top:1px solid #BBBBBB;
-}
-
-.order-table-even-row{
-    text-align:center;
-    background:none repeat scroll 0 0 #F9F9F9;
-    border-top:1px solid #BBBBBB;
 }

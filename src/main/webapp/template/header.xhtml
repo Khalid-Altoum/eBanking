@@ -8,25 +8,31 @@
     </h:head>
     <h:body>
         <ui:composition>
-            <header id="topheader">
+            <header id="header">
                 <div id="logo">
-                    <div style="margin-top: 50px; color: #FFF;font-size: x-large;padding-left: 62px;" pxclass="whitetitle">
+                    <div class="headerlogotitle">
                         <strong>Online </strong><strong>Banking </strong><br/>
-                        <strong>System</strong>
+                        <p></p>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>System</strong>
                     </div>
                 </div>
+                <div id="topheader">
+                    <br></br>
+                    <table></table>
+
+                </div>
+
+
                 <div id="toplinks" class="smallgraytext">
                     <h:form rendered="#{not empty request.remoteUser}">
-                        <h:commandLink value="Logout" action="#{loginBean.logout}" /> |
-                        <h:link value="Accounts" outcome="/accounts" />
+                        <h:commandLink value="Logout" action="#{loginBean.logout}" /> 
+                        <h:link value="Login" outcome="index" rendered="#{empty request.remoteUser}" /> | <a href="mailto:obs.inse620@gmail.com?Subject=Need%20Help" target="_top">
+                            Contact Us</a>
                     </h:form>
-                    <h:link value="Login" outcome="index" rendered="#{empty request.remoteUser}" /> | <a href="mailto:obs.inse620@gmail.com?Subject=Need%20Help" target="_top">
-                        Contact Us</a>
                 </div>
+                <div id="menu"></div>  
+                <div id="submenu"><div class="smallgraytext"></div></div>
             </header>
-            <div>
-
-            </div>
         </ui:composition>
     </h:body>
 </html>
