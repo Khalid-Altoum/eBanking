@@ -20,12 +20,12 @@ import javax.servlet.http.HttpSession;
  */
 @ManagedBean
 @RequestScoped
-public class AccountSummary {
+public class AccountSummaryBean {
 
     /**
      * Creates a new instance of AccountSummary
      */
-    public AccountSummary() {
+    public AccountSummaryBean() {
     }
 
     private Account selectedAccount;
