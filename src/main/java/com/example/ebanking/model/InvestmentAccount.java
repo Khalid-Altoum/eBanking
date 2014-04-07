@@ -126,13 +126,13 @@ public class InvestmentAccount extends Account implements Serializable {
     }
 
     public double calculateReturnOfInvestment(DateTime today) {
-
+        double result = 0;
         if (this.investmentPlan instanceof ClosedTermInvestment) {
             return calculateReturnOfInvestmentForClosedTermInvestment(today);
-        } else {
+        } else if (this.investmentPlan instanceof OpenTermInvestment) {
             return calculateReturnOfInvestmentForOpenTermInvestment(today);
         }
-
+        return result;
     }
 
     public double calculateReturnOfInvestmentForClosedTermInvestment(DateTime today) {
