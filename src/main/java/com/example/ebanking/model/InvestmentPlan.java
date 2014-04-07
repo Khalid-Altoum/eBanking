@@ -20,6 +20,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.annotations.Type;
 
 
 @Entity
@@ -32,7 +33,11 @@ public class InvestmentPlan implements Serializable{
     private Long investmentPlanId;
     
     @Column
-    private double penaltyPercent;
+     private double penaltyPercent;
+    
+    @Column
+    private int durationInDays;
+    
     
     @Column
     private double investmentReturnsPercent;
@@ -60,6 +65,14 @@ public class InvestmentPlan implements Serializable{
 
     public void setInvestmentReturnsPercent(double investmentReturnsPercent) {
         this.investmentReturnsPercent = investmentReturnsPercent;
+    }
+
+    public int getDurationInDays() {
+        return durationInDays;
+    }
+
+    public void setDurationInDays(int durationInDays) {
+        this.durationInDays = durationInDays;
     }
       
 
