@@ -48,7 +48,7 @@ public class Transaction implements Serializable {
     @Column
     private String formattedCredit;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Account sourceAccount;
 
     public Transaction() {

@@ -9,8 +9,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.StatelessSession;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
@@ -51,9 +53,9 @@ public class ObjectDao<T> {
         Long id = null;
         try {
             tx = session.beginTransaction();
-            if (!session.contains(object)) {
-                id = (Long) session.save(object);
-            }
+
+            id = (Long) session.save(object);
+
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) {
@@ -92,23 +94,15 @@ public class ObjectDao<T> {
     /* Method to UPDATE salary for an employee */
     public void updateObject(Object object, long id, Class<T> ClassName) throws IllegalAccessException, InvocationTargetException {
         Session session = factory.openSession();
-        Transaction tx = null;
+       // Transaction tx = null;
         try {
-            tx = session.beginTransaction();
-            // Update Object
-            if (session.contains(object)) {
-                session.update(object);
-            } else {
-                this.t = (T) session.get(ClassName, id);
-                BeanUtils.copyProperties(t, object);
-                session.merge(t);
-            }
-
-            tx.commit();
+             session.beginTransaction();
+             
+            this.t = (T) session.load(ClassName, id);
+            BeanUtils.copyProperties(t,object);
+           // session.evict(object);
+            session.getTransaction().commit();
         } catch (HibernateException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
             e.printStackTrace();
         } finally {
             session.close();
@@ -122,13 +116,10 @@ public class ObjectDao<T> {
         try {
             tx = session.beginTransaction();
             // Deleting Object
-            if (session.contains(object)) {
-                session.delete(object);
-            } else {
-                this.t = (T) session.load(ClassName, id);
-                session.delete(t);
-                session.flush();
-            }
+
+            this.t = (T) session.load(ClassName, id);
+            session.delete(t);
+            session.flush();
 
             tx.commit();
         } catch (HibernateException e) {
@@ -180,4 +171,34 @@ public class ObjectDao<T> {
         }
         return objects;
     }
+    
+     public int updateUsingSQL(String tableName,String setString, String whereString) {
+        // tableName i.e. Account
+        // setString i.e accountNumber = "Saving-0011-001",balance=1000
+        // whereSring i.e accountId = 3
+        StatelessSession session = factory.openStatelessSession();
+        Transaction tx = null;
+        int result=0;
+        try {
+            tx = session.beginTransaction();
+            Query query= session.createQuery("update " + tableName + " set "+ setString +" where " + whereString);
+            result = query.executeUpdate();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return result;
+    }
 }
+
+
+//Query query = session.createQuery("update Stock set stockName = :stockName" +
+//    				" where stockCode = :stockCode");
+//query.setParameter("stockName", "DIALOG1");
+//query.setParameter("stockCode", "7277");
+//int result = query.executeUpdate();

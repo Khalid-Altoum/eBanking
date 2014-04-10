@@ -11,7 +11,6 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -35,11 +34,11 @@ public class Client extends User implements Serializable {
     @Column
     private long age;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "client")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Account> accounts;
 
-    @OneToMany(mappedBy = "relatedClient", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "relatedClient")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<ClientCard> clientCards;
 

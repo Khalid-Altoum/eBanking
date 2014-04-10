@@ -37,7 +37,7 @@ public class Payee implements Serializable{
     private String name;
     
      
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     private PayeeAccount payeeAccount;
 
     public Long getPayeeId() {

@@ -20,7 +20,7 @@ import org.joda.time.DateTime;
 public class test1DB {
 
     public static void main(String[] args) throws IllegalAccessException, InvocationTargetException {
-
+//
 //        Client cl = new Client();
 //        cl.setFirstName("FirstName2");
 //        cl.setLastName("LastName2");
@@ -31,18 +31,18 @@ public class test1DB {
 //        cl.setPassword("1234");
 //        cl.setPhoneNumber("514-000-9999");
 //        //cl.setClientCard(new ClientCard("12-34-56", DateTime.now(),cl));
-//        cl.saveUser();
+//        //cl.saveUser();
 ////
 //         // cl = Client.getClientsById(1);
 //        ChequingAccount ca = new ChequingAccount();
 //        ca.setAccountNumber("Check001");
-//        ca.setBalance(50000);
+//        ca.setBalance(5000);
 //        ca.setOpenedDate(DateTime.now());
 //        ca.setClient(cl);
 ////
 //        SavingAccount sa = new SavingAccount();
 //        sa.setAccountNumber("Saving001");
-//        sa.setBalance(50000);
+//        sa.setBalance(1000);
 //        sa.setOpenedDate(DateTime.now());
 //        sa.setClient(cl);
 ////
@@ -126,6 +126,7 @@ public class test1DB {
 //        List<Account> accounts = new ArrayList<Account>();
 //        accounts.add(sa);
 //        accounts.add(ca);
+        
 ////
 //        Address address = new Address();
 //        address.setApartmentNumber("1502");
@@ -159,15 +160,15 @@ public class test1DB {
 //        
 //        client.setAccounts(accounts);
 //        client.saveUser();
-        ChequingAccount ca = ChequingAccount.getCheckingAccountById(2);
-        Transaction tr=new Transaction();
-        tr.setDebit(50);
-        tr.setDescription("Withdrwal of $50");
-        tr.setFormattedDebit("$50");
-        tr.setSourceAccount(ca);
-        tr.setTransactionTime(DateTime.now());
-        tr.saveTransaction();
-        ca.updateAccount();
+//        ChequingAccount ca = ChequingAccount.getCheckingAccountById(2);
+//        Transaction tr=new Transaction();
+//        tr.setDebit(50);
+//        tr.setDescription("Withdrwal of $50");
+//        tr.setFormattedDebit("$50");
+//        tr.setSourceAccount(ca);
+//        tr.setTransactionTime(DateTime.now());
+//        tr.saveTransaction();
+//        ca.updateAccount();
         
 //        CreditAccount cAcc = new CreditAccount();
 ////        long  temp=145648;
@@ -193,9 +194,9 @@ public class test1DB {
 //        cp.setInterestRate(0.5);
 //        cp.saveCreditPlan();
         
-//        Client c = Client.getClientsById(1);
-//        ClientCard cCard= new ClientCard("12-AA-56", DateTime.now(),c);
-//        cCard.saveClientCard();
+        Client c = Client.getClientsById(1);
+        ClientCard cCard= new ClientCard("12-AA-56", DateTime.now(),c);
+        cCard.saveClientCard();
         
         
         

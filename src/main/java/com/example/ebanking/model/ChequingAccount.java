@@ -30,7 +30,11 @@ public class ChequingAccount extends Account implements Serializable {
     @Override
     public void updateAccount() throws IllegalAccessException, InvocationTargetException {
         ObjectDao<ChequingAccount> checkingAccountDao = new ObjectDao<ChequingAccount>();
-        checkingAccountDao.updateObject(this, this.getAccountId(), ChequingAccount.class);
+         checkingAccountDao.updateObject(this, this.getAccountId(), ChequingAccount.class);
+//        String setString = " balance = " + this.getBalance();
+//       // setString += 
+//        String whereString= " account.accountId = " + this.getAccountId();
+//        checkingAccountDao.updateUsingSQL("ChequingAccount account ", setString, whereString);   
     }
 
     @Override

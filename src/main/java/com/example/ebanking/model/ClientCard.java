@@ -43,7 +43,7 @@ public class ClientCard implements Serializable {
     @Type(type = "org.joda.time.contrib.hibernate.PersistentDateTime")
     private DateTime expiryDate;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Client relatedClient;
 
     public ClientCard() {
