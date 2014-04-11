@@ -12,7 +12,6 @@ import com.example.ebanking.utils.RandomUtil;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Random;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +23,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeUtils;
 
 @Entity
 @Table

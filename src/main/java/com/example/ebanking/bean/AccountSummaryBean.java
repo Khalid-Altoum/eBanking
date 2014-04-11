@@ -8,6 +8,7 @@ package com.example.ebanking.bean;
 import com.example.ebanking.model.Account;
 import com.example.ebanking.model.ChequingAccount;
 import com.example.ebanking.model.InvestmentAccount;
+import com.example.ebanking.model.PayeeAccount;
 import com.example.ebanking.model.SavingAccount;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -56,6 +57,8 @@ public class AccountSummaryBean {
             accountTypeInferred = "Saving";
         } else if (selectedAccount instanceof InvestmentAccount) {
             accountTypeInferred = "Investment";
+        }else if (selectedAccount instanceof PayeeAccount) {
+            accountTypeInferred = "Payee";
         }
         return accountTypeInferred;
     }

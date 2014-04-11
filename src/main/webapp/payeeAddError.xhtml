@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Add Payee Error</title>
+        <link rel="stylesheet" href="/eBanking/css/style.css" type="text/css" />
+    </h:head>
+    <h:body>
+        <ui:insert name="header" >
+            <ui:include src="/template/header.xhtml" />
+        </ui:insert>
+        <div id="contenttext" style="width: 800px; font-size: 13px; padding:148px;">
+            <p> An Error has occurred while adding the payee, Please try again. </p>
+        </div>
+        <div id="leftpannel">
+            <ui:insert name="left-panel" >
+                <ui:include src="/template/left_panel.xhtml" />
+            </ui:insert> 
+        </div>
+        <ui:insert name="footer">
+            <ui:include src="/template/footer.xhtml" />
+        </ui:insert>
+    </h:body>
+</html>
+

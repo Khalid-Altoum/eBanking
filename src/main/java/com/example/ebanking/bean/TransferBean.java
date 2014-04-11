@@ -9,6 +9,7 @@ import com.example.ebanking.model.Account;
 import com.example.ebanking.model.ChequingAccount;
 import com.example.ebanking.model.Client;
 import com.example.ebanking.model.InvestmentAccount;
+import com.example.ebanking.model.PayeeAccount;
 import com.example.ebanking.model.SavingAccount;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +38,8 @@ public class TransferBean {
     private HashMap<String, Long> fromAccounts;
     private HashMap<String, Long> toAccounts;
     private double amountToTransfer;
+    private PayeeAccount selectedPayeeAccountObj;
+    private String SelectedPayeeAccountName;
 
     public long getFromAccount() {
         return fromAccount;
@@ -79,9 +82,25 @@ public class TransferBean {
         this.amountToTransfer = amountToTransfer;
     }
 
+    public PayeeAccount getSelectedPayeeAccountObj() {
+        return selectedPayeeAccountObj;
+    }
+
+    public void setSelectedPayeeAccountObj(PayeeAccount SelectedPayeeAccountObj) {
+        this.selectedPayeeAccountObj = SelectedPayeeAccountObj;
+    }
+
+    public String getSelectedPayeeAccountName() {
+        selectedPayeeAccountObj = getSelectedPayeeAccountFromSession();
+        SelectedPayeeAccountName = selectedPayeeAccountObj.getPayee().getName();
+        return SelectedPayeeAccountName;
+    }
+
+    public void setSelectedPayeeAccountName(String SelectedPayeeAccountName) {
+        this.SelectedPayeeAccountName = SelectedPayeeAccountName;
+    }
+
     public String transferAmount() {
-        System.out.println("==========> To Account" + toAccount);
-        System.out.println("==========> From Account" + fromAccount);
         Account fromAccountObj = Account.getAccountById(fromAccount);
         Account toAccountObj = Account.getAccountById(toAccount);
         if (Account.transfer(fromAccountObj, toAccountObj, amountToTransfer, "Online Tranfer from account " + fromAccountObj.getAccountNumber())) {
@@ -134,5 +153,21 @@ public class TransferBean {
             accountTypeInferred = "Investment";
         }
         return accountTypeInferred;
+    }
+
+    private PayeeAccount getSelectedPayeeAccountFromSession() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+        String selectedPayeeAccountId = (String) session.getAttribute("selectedPayeeAccountId");
+        return PayeeAccount.getPayeeAccountById(Long.parseLong(selectedPayeeAccountId));
+    }
+
+    public String payBill() {
+        Account fromAccountObj = Account.getAccountById(fromAccount);
+        Account toAccountObj = (Account) getSelectedPayeeAccountFromSession();
+        if (Account.transfer(fromAccountObj, toAccountObj, amountToTransfer, "Payement from " + fromAccountObj.getAccountNumber())) {
+            return "addPayee";
+        }
+        return "payeeAddError";
     }
 }

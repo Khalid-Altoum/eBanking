@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Add Payee</title>
         <link rel="stylesheet" href="/eBanking/css/style.css" type="text/css" />
@@ -12,7 +13,10 @@
             <ui:include src="/template/header.xhtml" />
         </ui:insert>
         <div id="contenttext" style="width: 800px; font-size: 13px; padding:148px;">
-            <p align="left">Use the Add a Payee feature to add to the list of companies you want to be able to pay using Online Banking System. To get started, fill out the information below and select OK. Please note that you will need to know your payee account number to complete this process.</p>
+            <legend>
+                <h2 class="largeredtext">Add a Payee</h2>
+            </legend>
+            <p align="left">Use the Add a Payee feature to add to the list of companies you want to be able to pay using Online Banking System.<br/> To get started, fill out the information below and select OK. Please note that you will need to know your payee account <br/>number to complete this process.</p>
             <h:form>
                 <table>
                     <tbody>
@@ -37,6 +41,33 @@
                         </tr>
                     </tbody>
                 </table>
+            </h:form>
+            <br/>
+            <br/>
+            <h:form>
+                <h:dataTable rules="rows" class="historystyle" value="#{payeeBean.payeeList}" var="payeeAccount">
+                    <h:column>
+                        <f:facet name="header">Payee Name</f:facet>
+                            #{payeeAccount.payee.name}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Account No.</f:facet>
+                            #{payeeAccount.accountNumber}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Added Date</f:facet>
+                            #{payeeAccount.openedDate}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Status</f:facet>
+                            #{payeeAccount.status}
+                    </h:column>
+                    <h:column>
+                        <h:commandButton value="Pay Bill" action="#{payeeBean.naviagateToPayeeTransfer}" >
+                            <f:param name="selectedPayeeAccountId" value="#{payeeAccount.accountId}" />
+                        </h:commandButton>
+                    </h:column>
+                </h:dataTable>
             </h:form>
         </div>
         <div id="leftpannel">

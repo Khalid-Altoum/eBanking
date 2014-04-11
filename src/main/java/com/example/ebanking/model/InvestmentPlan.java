@@ -20,7 +20,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.annotations.Type;
 
 
 @Entity
