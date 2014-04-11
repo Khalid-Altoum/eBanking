@@ -11,11 +11,10 @@ import com.example.ebanking.persistence.HibernateUtil;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import org.hibernate.HibernateException;
@@ -28,8 +27,9 @@ import org.hibernate.annotations.LazyCollectionOption;
 @PrimaryKeyJoinColumn(name = "accountId")
 public class PayeeAccount extends Account implements Serializable{
     
-    @OneToMany(mappedBy = "payeeAccount",fetch = FetchType.EAGER)
-    @LazyCollection(LazyCollectionOption.FALSE)
+    //@OneToMany(mappedBy = "payeeAccount",fetch = FetchType.EAGER)
+    //@LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Payee payee;
 
     public Payee getPayee() {
