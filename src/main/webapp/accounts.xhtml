@@ -14,15 +14,12 @@
         </ui:insert>
         <div id="contenttext" style="width: 800px; font-size: 13px; padding:148px;">
             <div class="bodytext" style="padding:20px;">
-                <h3 align="left" style="color:#CC0000"><strong>My Account Summary</strong></h3>
+          <strong class="largeredtext">My Account Summary</strong>
                 <ul>
                     <li style="float:left">Bank Accounts</li>
                     <br />
                     <h:form>
-                        <h:dataTable value="#{accountsBean.personalAccountsList}" var="account"
-                                     styleClass="order-table"
-                                     headerClass="order-table-header"
-                                     rowClasses="order-table-odd-row,order-table-even-row">
+                        <h:dataTable rules="rows" class="historystyle" value="#{accountsBean.personalAccountsList}" var="account">
                             <h:column>
                                 <f:facet name="header">Account No.</f:facet>
                                     #{account.accountNumber}
@@ -40,7 +37,7 @@
                         <br />
                         <li style="float:left">Investments</li>
                         <br />
-                        <h:dataTable value="#{accountsBean.investmentAccountsList}" var="account"
+                        <h:dataTable rules="rows" class="historystyle" value="#{accountsBean.investmentAccountsList}" var="account"
                                      styleClass="order-table"
                                      headerClass="order-table-header"
                                      rowClasses="order-table-odd-row,order-table-even-row">

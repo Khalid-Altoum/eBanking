@@ -2,7 +2,7 @@
 
 /*PAGE LAYOUT*/
 body {
-    margin-left: 0px;
+    margin-left: 30px;
     margin-top: 0px;
     margin-right: 0px;
     margin-bottom: 0px;
@@ -16,13 +16,13 @@ body {
 }
 #topheader {
     float: left;
-    width: 82%;
+    width: 75%;
     height: 97px;
     background-color: #F0F0F0;
 }
 #toplinks {
     position: absolute;
-    right: 40px;
+    right: 5%;
     top: 10px;
 }
 #menu {
@@ -30,13 +30,13 @@ body {
     height: 32px;
     background-image: url('/eBanking/img/bg_menu.gif');
     background-repeat: repeat-x;
-    width: 82%;
+    width: 75%;
 }
 #submenu {
-    float: right;
-    width: 526px;
+    float: left;
+    width: 75%;
     height: 32px;
-    background-image: url(/eBanking/images/bg_submenu.gif);
+    background-image: url(/eBanking/img/bg_submenu.gif);
     background-position: top;
     background-repeat: repeat-x;
 }
@@ -50,14 +50,14 @@ body {
 }
 #leftpanel {
     float: right;
-    width: 400px;
+    width: 300px;
     margin-bottom: 50px;
 }
 #footer {
     float: left;
-    width: 98%;
+    width: 95%;
     background-color: #F0F0F0;
-    padding: 10px;
+    padding: 5px;
 }
 /*GRAY PANEL*/
 .graypanel {
