@@ -11,19 +11,16 @@ import com.example.ebanking.persistence.HibernateUtil;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.criterion.Restrictions;
 
 
 @Entity
@@ -37,8 +34,6 @@ public class Payee implements Serializable{
     private String name;
     
      
-    @OneToOne(fetch = FetchType.EAGER)
-    private PayeeAccount payeeAccount;
 
     public Long getPayeeId() {
         return payeeId;
@@ -56,14 +51,7 @@ public class Payee implements Serializable{
         this.name = name;
     }
 
-    public PayeeAccount getPayeeAccount() {
-        return payeeAccount;
-    }
-
-    public void setPayeeAccount(PayeeAccount payeeAccount) {
-        this.payeeAccount = payeeAccount;
-    }
-    
+        
      // Hibernate Methods
     public long savePayee() {
         ObjectDao<Payee> accountDao = new ObjectDao<Payee>();
@@ -103,4 +91,21 @@ public class Payee implements Serializable{
         return payee;
     }
     
+    public static Payee getPayeeByName(String payeeName) {
+        Payee payeeHolder = null;
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            payeeHolder = (Payee) session.createCriteria(Payee.class).
+                    add(Restrictions.eq("name", payeeName)).
+                    uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return payeeHolder;
+    }
 }

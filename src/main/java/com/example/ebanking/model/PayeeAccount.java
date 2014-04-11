@@ -14,18 +14,22 @@ import java.util.ArrayList;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 @Table
 @PrimaryKeyJoinColumn(name = "accountId")
 public class PayeeAccount extends Account implements Serializable{
     
-    @OneToOne(mappedBy = "payeeAccount", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "payeeAccount",fetch = FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Payee payee;
 
     public Payee getPayee() {

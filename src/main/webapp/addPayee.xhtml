@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Add Payee</title>
+        <link rel="stylesheet" href="/eBanking/css/style.css" type="text/css" />
+    </h:head>
+    <h:body>
+        <ui:insert name="header" >
+            <ui:include src="/template/header.xhtml" />
+        </ui:insert>
+        <div id="contenttext" style="width: 800px; font-size: 13px; padding:148px;">
+            <p align="left">Use the Add a Payee feature to add to the list of companies you want to be able to pay using Online Banking System. To get started, fill out the information below and select OK. Please note that you will need to know your payee account number to complete this process.</p>
+            <h:form>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Payee Name:</td>
+                            <td>
+                                <h:inputText id="payeeNameInput" value="#{payeeBean.payeeName}" 
+                                             required="true" class="input-block-level" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Account Number:</td>
+                            <td>
+                                <h:inputText id="accountNumberInput" value="#{payeeBean.accountNumber}" 
+                                             required="true" class="input-block-level" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><h:commandButton value="Add Payee" 
+                                                 action="#{payeeBean.addPayee}" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </h:form>
+        </div>
+        <div id="leftpannel">
+            <ui:insert name="left-panel" >
+                <ui:include src="/template/left_panel.xhtml" />
+            </ui:insert> 
+        </div>
+        <ui:insert name="footer">
+            <ui:include src="/template/footer.xhtml" />
+        </ui:insert>
+    </h:body>
+</html>
+
