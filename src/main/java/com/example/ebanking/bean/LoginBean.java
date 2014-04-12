@@ -83,7 +83,7 @@ public class LoginBean {
             context.addMessage(null, new FacesMessage("Logout failed."));
             return "loginError";
         }
-        return "/index";
+        return "index";
     }
 
 }

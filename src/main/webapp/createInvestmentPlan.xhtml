@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Create Investment Plan</title>
+        <link rel="stylesheet" href="/eBanking/css/style.css" type="text/css" />
+    </h:head>
+    <h:body>
+        <ui:insert name="header" >
+            <ui:include src="/template/header.xhtml" />
+        </ui:insert>
+        <div id="contenttext" style="width: 800px; font-size: 13px; padding:148px;">
+            <legend>
+                <h2 class="largeredtext">Add an Investment Plan</h2>
+            </legend>
+            <h:form>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Return Percentage:</td>
+                            <td>
+                                <h:inputText id="returnPercentageInput" value="#{investmentBean.returnPercentage}" 
+                                             required="true" class="input-block-level" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Duration (in days):</td>
+                            <td>
+                                <h:inputText id="durationInDaysInput" value="#{investmentBean.durationInDays}" 
+                                             required="true" class="input-block-level" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Penalty Percentage:</td>
+                            <td>
+                                <h:inputText id="penaltyPercentageInput" value="#{investmentBean.penaltyPercentage}" 
+                                             required="true" class="input-block-level" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <h:commandButton value="Add Investment Plan" 
+                                                 action="#{investmentBean.addInvestmentPlan}" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </h:form>
+            <br/>
+            <br/>
+            <h:dataTable rules="rows" class="historystyle" value="#{investmentBean.investmentPlanList}" var="investmentPlan"
+                         styleClass="order-table"
+                         headerClass="order-table-header"
+                         rowClasses="order-table-odd-row,order-table-even-row">
+                <h:column>
+                    <f:facet name="header">Plan ID</f:facet>
+                        #{investmentPlan.investmentPlanId}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Duration In Days</f:facet>
+                        #{investmentPlan.durationInDays}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Return Percentage</f:facet>
+                        #{investmentPlan.investmentReturnsPercent}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Penalty Percentage</f:facet>
+                        #{investmentPlan.penaltyPercent}
+                </h:column>
+            </h:dataTable>
+        </div>
+        <div id="leftpannel">
+            <ui:insert name="left-panel" >
+                <ui:include src="/template/left_panel.xhtml" />
+            </ui:insert> 
+        </div>
+        <ui:insert name="footer">
+            <ui:include src="/template/footer.xhtml" />
+        </ui:insert>
+    </h:body>
+</html>
+
