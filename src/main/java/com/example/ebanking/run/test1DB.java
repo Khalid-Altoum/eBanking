@@ -7,11 +7,6 @@ package com.example.ebanking.run;
 
 import com.example.ebanking.model.*;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
-import org.joda.time.DateTime;
 
 /**
  *

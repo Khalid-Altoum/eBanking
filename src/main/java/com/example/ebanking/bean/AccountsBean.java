@@ -7,19 +7,24 @@ package com.example.ebanking.bean;
 
 import com.example.ebanking.model.Account;
 import com.example.ebanking.model.Client;
+import com.example.ebanking.model.ClosedTermInvestment;
+import com.example.ebanking.model.InvestmentAccount;
+import com.example.ebanking.model.OpenTermInvestment;
 import java.util.ArrayList;
 import java.util.Map;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import org.joda.time.DateTime;
 
 /**
  *
  * @author pr_danie
  */
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class AccountsBean {
 
     /**
@@ -72,9 +77,22 @@ public class AccountsBean {
 
     public String naviagateToAccount() {
         FacesContext context = FacesContext.getCurrentInstance();
-        Map<String,String> parameters = context.getExternalContext().getRequestParameterMap();
+        Map<String, String> parameters = context.getExternalContext().getRequestParameterMap();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
         session.setAttribute("selectedAccountId", parameters.get("selectedAccountId"));
         return "accountsSummary";
+    }
+
+    public void calculateReturns() {
+
+        FacesContext context = FacesContext.getCurrentInstance();
+        Map<String, String> parameters = context.getExternalContext().getRequestParameterMap();
+
+        InvestmentAccount investAcc = InvestmentAccount.getInvestmentAccountById(Long.parseLong(parameters.get("selectedAccountId")));
+        if (investAcc.getInvestmentPlan() instanceof OpenTermInvestment) {
+            context.addMessage("displayReturns", new FacesMessage("The Return of investment as of today is "+ investAcc.calculateReturnOfInvestmentForOpenTermInvestment(new DateTime())));
+        } else if (investAcc.getInvestmentPlan() instanceof ClosedTermInvestment) {
+            context.addMessage("displayReturns", new FacesMessage("The Return of investment as of today is "+ investAcc.calculateReturnOfInvestmentForClosedTermInvestment(new DateTime())));
+        }
     }
 }

@@ -13,6 +13,7 @@
             <ui:include src="/template/header.xhtml" />
         </ui:insert>
         <div id="contenttext" style="width: 800px; font-size: 13px; padding:148px;">
+            <h:messages class="success" id="displaytransfer" />
             <legend>
                 <h2 class="largeredtext">Make A Transfer</h2>
             </legend>
@@ -31,7 +32,7 @@
                             <td>To</td>
                             <td>
                                 <h:selectOneMenu value="#{transferBean.toAccount}">
-                                    <f:selectItems value="#{transferBean.toAccounts}" />
+                                    <f:selectItems value="#{transferBean.fromAccounts}" />
                                 </h:selectOneMenu>
                             </td>
                         </tr>

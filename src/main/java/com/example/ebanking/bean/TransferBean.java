@@ -14,8 +14,9 @@ import com.example.ebanking.model.SavingAccount;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpSession;
@@ -25,7 +26,7 @@ import javax.servlet.http.HttpSession;
  * @author PradeepSamuel
  */
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class TransferBean {
 
     /**
@@ -114,6 +115,8 @@ public class TransferBean {
         Account fromAccountObj = Account.getAccountById(fromAccount);
         Account toAccountObj = Account.getAccountById(toAccount);
         if (Account.transfer(fromAccountObj, toAccountObj, amountToTransfer, "Online Tranfer from account " + fromAccountObj.getAccountNumber())) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage("displaytransfer", new FacesMessage("Transfer Successfull"));
             return "transfer";
         }
         return "loginError";
@@ -183,7 +186,7 @@ public class TransferBean {
 
     public String withdrawAmount() throws IllegalAccessException, InvocationTargetException {
         Account fromAccountObj = Account.getAccountById(fromAccount);
-        fromAccountObj.withdraw(amountToTransfer, "Check sent to Address: "+toAddress);
+        fromAccountObj.withdraw(amountToTransfer, "Check sent to Address: " + toAddress);
         return "withdraw";
     }
 }
