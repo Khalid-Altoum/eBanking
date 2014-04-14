@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.example.ebanking.model;
 
 import com.example.ebanking.dao.ObjectDao;
@@ -11,6 +10,7 @@ import com.example.ebanking.persistence.HibernateUtil;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,26 +21,23 @@ import javax.persistence.Table;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
-
 @Entity
 @Table(name = "InvestmentPlan")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class InvestmentPlan implements Serializable{
-    
+public class InvestmentPlan implements Serializable {
+
     @Id
     @GeneratedValue
     private Long investmentPlanId;
-    
+
     @Column
-     private double penaltyPercent;
-    
+    private double penaltyPercent;
+
     @Column
     private int durationInDays;
-    
-    
+
     @Column
     private double investmentReturnsPercent;
-    
 
     public Long getInvestmentPlanId() {
         return investmentPlanId;
@@ -73,9 +70,8 @@ public class InvestmentPlan implements Serializable{
     public void setDurationInDays(int durationInDays) {
         this.durationInDays = durationInDays;
     }
-      
 
-    public long saveInvestmentPlan()  {
+    public long saveInvestmentPlan() {
         ObjectDao<InvestmentPlan> investmentPlanDao = new ObjectDao<InvestmentPlan>();
         return investmentPlanDao.addObject(this);
     }
@@ -112,7 +108,24 @@ public class InvestmentPlan implements Serializable{
         investmentPlans = investmentPlanDao.getAllObjects("InvestmentPlan");
         return investmentPlans;
     }
+
+    public static List<InvestmentPlan> getOpenTermInvestments(List<InvestmentPlan> investmentPlans) {
+        List<InvestmentPlan> ins = new ArrayList<InvestmentPlan>();
+        for (InvestmentPlan in : investmentPlans) {
+            if (in instanceof OpenTermInvestment) {
+                ins.add(in);
+            }
+        }
+        return ins;
+    }
+
+    public static List<InvestmentPlan> getClosedTermInvestments(List<InvestmentPlan> investmentPlans) {
+        List<InvestmentPlan> ins = new ArrayList<InvestmentPlan>();
+        for (InvestmentPlan in : investmentPlans) {
+            if (in instanceof ClosedTermInvestment) {
+                ins.add(in);
+            }
+        }
+        return ins;
+    }
 }
- 
-
-

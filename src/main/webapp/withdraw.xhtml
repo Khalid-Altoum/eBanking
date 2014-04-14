@@ -14,29 +14,27 @@
         </ui:insert>
         <div id="contenttext" style="width: 800px; font-size: 13px; padding:148px;">
             <legend>
-                <h2 class="largeredtext">Make A Transfer</h2>
+                <h2 class="largeredtext">Make A Withdrawal</h2>
             </legend>
             <h:form>
                 <table>
                     <tbody>
                         <tr>
-                            <td>From</td>
+                            <td>Withdraw From:</td>
                             <td>
-                                <h:selectOneMenu value="#{transferBean.fromAccount}" onchange="submit()" valueChangeListener="#{transferBean.selectAccount}">
+                                <h:selectOneMenu value="#{transferBean.fromAccount}">
                                     <f:selectItems value="#{transferBean.fromAccounts}" />
                                 </h:selectOneMenu>
                             </td>
                         </tr>
                         <tr>
-                            <td>To</td>
+                            <td>Address:</td>
                             <td>
-                                <h:selectOneMenu value="#{transferBean.toAccount}">
-                                    <f:selectItems value="#{transferBean.toAccounts}" />
-                                </h:selectOneMenu>
+                                <h:inputText id="addressInput" value="#{transferBean.toAddress}" />
                             </td>
                         </tr>
                         <tr>
-                            <td>Amount</td>
+                            <td>Amount:</td>
                             <td>
                                 <h:inputText id="amountInput" value="#{transferBean.amountToTransfer}" />
                             </td>
@@ -44,7 +42,7 @@
                         <tr>
                             <td>
                                 <h:commandButton value="Transfer" 
-                                                 action="#{transferBean.transferAmount}" />
+                                                 action="#{transferBean.withdrawAmount}" />
                             </td>
                         </tr>
                     </tbody>

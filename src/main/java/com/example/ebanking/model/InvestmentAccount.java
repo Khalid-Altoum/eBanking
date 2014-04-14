@@ -12,7 +12,6 @@ import com.example.ebanking.utils.RandomUtil;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,11 +29,11 @@ import org.joda.time.DateTime;
 public class InvestmentAccount extends Account implements Serializable {
 
     public InvestmentAccount() {
-        super();
+        super.settingNewAccountValues();
     }
 
     public InvestmentAccount(DateTime startDate, DateTime endDate, InvestmentPlan investmentPlan) {
-        super();
+        super.settingNewAccountValues();
         this.startDate = startDate;
         this.endDate = endDate;
         this.investmentPlan = investmentPlan;
@@ -47,7 +46,7 @@ public class InvestmentAccount extends Account implements Serializable {
     @Type(type = "org.joda.time.contrib.hibernate.PersistentDateTime")
     private DateTime endDate;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private InvestmentPlan investmentPlan;
 
     public DateTime getStartDate() {

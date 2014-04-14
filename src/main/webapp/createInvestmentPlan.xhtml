@@ -41,6 +41,14 @@
                             </td>
                         </tr>
                         <tr>
+                            <td>Investment Type:</td>
+                            <td>
+                                <h:selectOneMenu value="#{investmentBean.investmentType}">
+                                    <f:selectItems value="#{investmentBean.investmentTypeList}" />
+                                </h:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
                             <td></td>
                             <td>
                                 <h:commandButton value="Add Investment Plan" 
@@ -52,27 +60,76 @@
             </h:form>
             <br/>
             <br/>
-            <h:dataTable rules="rows" class="historystyle" value="#{investmentBean.investmentPlanList}" var="investmentPlan"
-                         styleClass="order-table"
-                         headerClass="order-table-header"
-                         rowClasses="order-table-odd-row,order-table-even-row">
-                <h:column>
-                    <f:facet name="header">Plan ID</f:facet>
-                        #{investmentPlan.investmentPlanId}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Duration In Days</f:facet>
-                        #{investmentPlan.durationInDays}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Return Percentage</f:facet>
-                        #{investmentPlan.investmentReturnsPercent}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Penalty Percentage</f:facet>
-                        #{investmentPlan.penaltyPercent}
-                </h:column>
-            </h:dataTable>
+             <legend>
+                <h2 class="largeredtext">Open Term Investments</h2>
+            </legend>
+            <h:form>
+                <h:dataTable rules="rows" class="historystyle" value="#{investmentBean.openInvestmentPlanList}" var="investmentPlan"
+                             styleClass="order-table"
+                             headerClass="order-table-header"
+                             rowClasses="order-table-odd-row,order-table-even-row">
+                    <h:column>
+                        <f:facet name="header">Plan ID</f:facet>
+                            #{investmentPlan.investmentPlanId}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Duration In Days</f:facet>
+                            #{investmentPlan.durationInDays}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Return Percentage</f:facet>
+                            #{investmentPlan.investmentReturnsPercent}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Penalty Percentage</f:facet>
+                            #{investmentPlan.penaltyPercent}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Investment Type</f:facet>
+                            #{investmentPlan.penaltyPercent}
+                    </h:column>
+                    <h:column>
+                        <h:commandButton value="Select Plan For Client" action="#{investmentBean.selectPlanforClient}" >
+                            <f:param name="selectedInvestmentPlanId" value="#{investmentPlan.investmentPlanId}" />
+                        </h:commandButton>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+            <legend>
+                <h2 class="largeredtext">Closed Term Investments</h2>
+            </legend>
+            <h:form>
+                <h:dataTable rules="rows" class="historystyle" value="#{investmentBean.closedInvestmentPlanList}" var="investmentPlan"
+                             styleClass="order-table"
+                             headerClass="order-table-header"
+                             rowClasses="order-table-odd-row,order-table-even-row">
+                    <h:column>
+                        <f:facet name="header">Plan ID</f:facet>
+                            #{investmentPlan.investmentPlanId}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Duration In Days</f:facet>
+                            #{investmentPlan.durationInDays}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Return Percentage</f:facet>
+                            #{investmentPlan.investmentReturnsPercent}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Penalty Percentage</f:facet>
+                            #{investmentPlan.penaltyPercent}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Investment Type</f:facet>
+                            #{investmentPlan.penaltyPercent}
+                    </h:column>
+                    <h:column>
+                        <h:commandButton value="Select Plan For Client" action="#{investmentBean.selectPlanforClient}" >
+                            <f:param name="selectedInvestmentPlanId" value="#{investmentPlan.investmentPlanId}" />
+                        </h:commandButton>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
         </div>
         <div id="leftpannel">
             <ui:insert name="left-panel" >

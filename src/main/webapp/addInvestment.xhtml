@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Add Investment Plan</title>
+        <link rel="stylesheet" href="/eBanking/css/style.css" type="text/css" />
+    </h:head>
+    <h:body>
+        <ui:insert name="header" >
+            <ui:include src="/template/header.xhtml" />
+        </ui:insert>
+        <div id="contenttext" style="width: 800px; font-size: 13px; padding:148px;">
+            <legend>
+                <h2 class="largeredtext">Add Investment to Client</h2>
+            </legend>
+            <table border="0">
+                <tbody>
+                    <tr>
+                        <td>Plan ID</td>
+                        <td>#{investmentBean.selectedInvestmentPlan.investmentPlanId}</td>
+                    </tr>
+                    <tr>
+                        <td>Investment Return %</td>
+                        <td>#{investmentBean.selectedInvestmentPlan.investmentReturnsPercent}</td>
+                    </tr>
+                    <tr>
+                        <td>Penalty %</td>
+                        <td>#{investmentBean.selectedInvestmentPlan.penaltyPercent}</td>
+                    </tr>
+                    <tr>
+                        <td>Duration (in days)</td>
+                        <td>#{investmentBean.selectedInvestmentPlan.durationInDays}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <legend>
+                <h2 class="largeredtext">Investment Details</h2>
+            </legend>
+            <h:form>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Client Account Number:</td>
+                            <td>
+                                <h:selectOneMenu value="#{investmentBean.clientAccountNumber}">
+                                    <f:selectItems value="#{investmentBean.clientAccountNumberList}" />
+                                </h:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Investment Start Date:</td>
+                            <td>
+                                <p:calendar value="#{investmentBean.startDate}" navigator="true" id="popupButtonCal" showOn="button" showButtonPanel="true" pattern="yyyy-M-d" required="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <h:commandButton value="Create Investment" action="#{investmentBean.createInvestmentForClient}" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </h:form>
+        </div>
+        <div id="leftpannel">
+            <ui:insert name="left-panel" >
+                <ui:include src="/template/left_panel.xhtml" />
+            </ui:insert> 
+        </div>
+        <ui:insert name="footer">
+            <ui:include src="/template/footer.xhtml" />
+        </ui:insert>
+    </h:body>
+</html>
+

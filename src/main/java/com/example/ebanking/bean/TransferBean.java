@@ -11,6 +11,7 @@ import com.example.ebanking.model.Client;
 import com.example.ebanking.model.InvestmentAccount;
 import com.example.ebanking.model.PayeeAccount;
 import com.example.ebanking.model.SavingAccount;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.faces.bean.ManagedBean;
@@ -40,6 +41,7 @@ public class TransferBean {
     private double amountToTransfer;
     private PayeeAccount selectedPayeeAccountObj;
     private String SelectedPayeeAccountName;
+    private String toAddress;
 
     public long getFromAccount() {
         return fromAccount;
@@ -98,6 +100,14 @@ public class TransferBean {
 
     public void setSelectedPayeeAccountName(String SelectedPayeeAccountName) {
         this.SelectedPayeeAccountName = SelectedPayeeAccountName;
+    }
+
+    public String getToAddress() {
+        return toAddress;
+    }
+
+    public void setToAddress(String toAddress) {
+        this.toAddress = toAddress;
     }
 
     public String transferAmount() {
@@ -169,5 +179,11 @@ public class TransferBean {
             return "addPayee";
         }
         return "payeeAddError";
+    }
+
+    public String withdrawAmount() throws IllegalAccessException, InvocationTargetException {
+        Account fromAccountObj = Account.getAccountById(fromAccount);
+        fromAccountObj.withdraw(amountToTransfer, "Check sent to Address: "+toAddress);
+        return "withdraw";
     }
 }
