@@ -21,17 +21,17 @@ public class test1DB {
 
     public static void main(String[] args) throws IllegalAccessException, InvocationTargetException {
 //
-//        Client cl = new Client();
-//        cl.setFirstName("FirstName2");
-//        cl.setLastName("LastName2");
-//        cl.setAge(99);
-//        cl.setEmail("a@b.com");
-//        cl.setGender("Male");
-//        cl.setUserName("01234567890");
-//        cl.setPassword("1234");
-//        cl.setPhoneNumber("514-000-9999");
+        Client cl = new Client();
+        cl.setFirstName("FirstName2");
+        cl.setLastName("LastName2");
+        cl.setAge(99);
+        cl.setEmail("a@b.com");
+        cl.setGender("Male");
+        cl.setUserName("01234567890");
+        cl.setPassword("1234");
+        cl.setPhoneNumber("514-000-9999");
 //        //cl.setClientCard(new ClientCard("12-34-56", DateTime.now(),cl));
-//        //cl.saveUser();
+        cl.saveUser();
 ////
 //         // cl = Client.getClientsById(1);
 //        ChequingAccount ca = new ChequingAccount();
@@ -194,9 +194,9 @@ public class test1DB {
 //        cp.setInterestRate(0.5);
 //        cp.saveCreditPlan();
         
-        Client c = Client.getClientsById(1);
-        ClientCard cCard= new ClientCard("12-AA-56", DateTime.now(),c);
-        cCard.saveClientCard();
+//        Client c = Client.getClientsById(1);
+//        ClientCard cCard= new ClientCard("159357", DateTime.now(),c);
+//        cCard.saveClientCard();
         
         
         

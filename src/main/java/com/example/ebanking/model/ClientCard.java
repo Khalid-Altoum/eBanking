@@ -100,7 +100,7 @@ public class ClientCard implements Serializable {
     private void updateRelatedClientUserName(Client relatedClient,long cardId) throws IllegalAccessException, InvocationTargetException {
         
         relatedClient.setUserName(this.cardNumber);
-        ArrayList<ClientCard> cards = new ArrayList<ClientCard>();
+        ArrayList<ClientCard> cards = new ArrayList<ClientCard>(0);
         cards.add(ClientCard.getClientCardById(cardId));
         relatedClient.setClientCards(cards);
         relatedClient.updateUser();

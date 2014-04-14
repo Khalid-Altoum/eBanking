@@ -11,12 +11,18 @@ import com.example.ebanking.model.ClosedTermInvestment;
 import com.example.ebanking.model.InvestmentAccount;
 import com.example.ebanking.model.InvestmentPlan;
 import com.example.ebanking.model.OpenTermInvestment;
+import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
+import javax.faces.FactoryFinder;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.context.FacesContextFactory;
+import javax.faces.lifecycle.Lifecycle;
+import javax.faces.lifecycle.LifecycleFactory;
 import javax.servlet.http.HttpSession;
 import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
@@ -194,6 +200,8 @@ public class InvestmentBean {
         investmentAccount.setClient(getSelectedClient());
         investmentAccount.setStatus(Account.AccountStatus.ACTIVE);
         investmentAccount.saveAccount();
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage("displayinvestmentsave", new FacesMessage("Investment saved successfully"));
         return "createInvestmentPlan";
     }
 
