@@ -6,6 +6,7 @@
 package com.example.ebanking.model;
 
 import com.example.ebanking.dao.ObjectDao;
+import com.example.ebanking.utils.JodaDateTimeConverter;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class CreditAccount extends Account implements Serializable {
 
     private double availableCredit;
 
-
+    @Convert(converter= JodaDateTimeConverter.class)
     private DateTime expiryDate;
 
 

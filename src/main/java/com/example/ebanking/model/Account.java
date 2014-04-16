@@ -6,7 +6,7 @@
 package com.example.ebanking.model;
 
 import com.example.ebanking.dao.ObjectDao;
-
+import com.example.ebanking.utils.JodaDateTimeConverter;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -27,6 +27,8 @@ public class Account implements Serializable {
     private double balance;
     private String currency;
     private String currencySign;
+
+    @Convert(converter= JodaDateTimeConverter.class)
     private DateTime openedDate;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

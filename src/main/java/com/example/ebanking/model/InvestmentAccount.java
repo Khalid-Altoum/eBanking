@@ -7,6 +7,7 @@ package com.example.ebanking.model;
 
 import com.example.ebanking.dao.ObjectDao;
 import com.example.ebanking.utils.DateUtil;
+import com.example.ebanking.utils.JodaDateTimeConverter;
 import com.example.ebanking.utils.RandomUtil;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -17,7 +18,9 @@ import org.joda.time.DateTime;
 @Entity
 public class InvestmentAccount extends Account implements Serializable {
 
+    @Convert(converter = JodaDateTimeConverter.class)
     private DateTime startDate;
+    @Convert(converter = JodaDateTimeConverter.class)
     private DateTime endDate;
 
     @ManyToOne(fetch = FetchType.EAGER)

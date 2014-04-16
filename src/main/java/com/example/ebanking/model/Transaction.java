@@ -1,6 +1,7 @@
 package com.example.ebanking.model;
 
 import com.example.ebanking.dao.ObjectDao;
+import com.example.ebanking.utils.JodaDateTimeConverter;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.text.NumberFormat;
@@ -21,6 +22,8 @@ public class Transaction implements Serializable {
     @Id
     @GeneratedValue
     private Long transactionId;
+    
+    @Convert(converter= JodaDateTimeConverter.class)
     private DateTime transactionTime;
     private String description;
     private double debit;
