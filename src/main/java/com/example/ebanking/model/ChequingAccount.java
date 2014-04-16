@@ -6,72 +6,49 @@
 package com.example.ebanking.model;
 
 import com.example.ebanking.dao.ObjectDao;
-import com.example.ebanking.persistence.HibernateUtil;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
- 
+import javax.persistence.*;
+
 @Entity
-@Table
-@PrimaryKeyJoinColumn(name = "accountId")
 public class ChequingAccount extends Account implements Serializable {
 
     @Override
-    public long saveAccount() {
+    public void saveAccount() {
         ObjectDao<ChequingAccount> accountDao = new ObjectDao<ChequingAccount>();
-        return accountDao.addObject(this);
+        accountDao.addObject(this);
     }
 
     @Override
-    public void updateAccount() throws IllegalAccessException, InvocationTargetException {
-        ObjectDao<ChequingAccount> checkingAccountDao = new ObjectDao<ChequingAccount>();
-         checkingAccountDao.updateObject(this, this.getAccountId(), ChequingAccount.class);
-//        String setString = " balance = " + this.getBalance();
-//       // setString += 
-//        String whereString= " account.accountId = " + this.getAccountId();
-//        checkingAccountDao.updateUsingSQL("ChequingAccount account ", setString, whereString);   
+    public void updateAccount() {
+        ObjectDao<ChequingAccount> chequingAccountDao = new ObjectDao<ChequingAccount>();
+        chequingAccountDao.updateObject(this, this.getAccountId(), ChequingAccount.class);
+
     }
 
     @Override
-    public void deleteAccount() throws IllegalAccessException, InvocationTargetException {
-        ObjectDao checkingAccountDao = new ObjectDao();
-        checkingAccountDao.deleteObject(this, this.getAccountId(), ChequingAccount.class);
+    public void deleteAccount() {
+        ObjectDao chequingAccountDao = new ObjectDao();
+        chequingAccountDao.deleteObject(this, this.getAccountId(), ChequingAccount.class);
     }
 
-    public static ChequingAccount getCheckingAccountById(long id) {
-        ChequingAccount checkingAccountHolder = null;
-        Session session = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            checkingAccountHolder = (ChequingAccount) session.get(ChequingAccount.class, id);
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-        return checkingAccountHolder;
+    public static ChequingAccount getChequingAccountById(long id) {
+        ObjectDao<ChequingAccount> dao = new ObjectDao<ChequingAccount>();
+        return dao.getObjectById(id, ChequingAccount.class);
     }
 
     public static ArrayList<ChequingAccount> getCheckingAccounts() {
-        ArrayList<ChequingAccount> checkingAccounts;
-        ObjectDao checkingAccountDao = new ObjectDao();
-        checkingAccounts = checkingAccountDao.getAllObjects("CheckingAccount");
-        return checkingAccounts;
+        ObjectDao<ChequingAccount> dao = new ObjectDao<ChequingAccount>();
+        return dao.getAllObjects(ChequingAccount.class, "ChequingAccount");
     }
 
     @Override
-    public boolean withdraw(double amount,String description) throws IllegalAccessException, InvocationTargetException {
+    public boolean withdraw(double amount, String description) throws IllegalAccessException, InvocationTargetException {
         boolean isDone = false;
 
         if (this.getBalance() >= amount) {
-            super.withdraw(amount,description);
+            super.withdraw(amount, description);
             isDone = true;
         }
         return isDone;

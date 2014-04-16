@@ -6,31 +6,16 @@
 package com.example.ebanking.model;
 
 import com.example.ebanking.dao.ObjectDao;
-import com.example.ebanking.persistence.HibernateUtil;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
+import javax.persistence.*;
 
 
-/**
- *
- * @author HMD
- */
+
+
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User implements Serializable{
 
@@ -38,25 +23,13 @@ public class User implements Serializable{
     @GeneratedValue
     private long userId;
     
-    @Column
+
     private String userName;
-    
-    @Column
     private String password;
-
-    @Column
     private String firstName;
-
-    @Column
     private String lastName;
-
-    @Column
     private String gender;
-
-    @Column
     private String phoneNumber;
-    
-    @Column
     private String email;
     
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -136,41 +109,28 @@ public class User implements Serializable{
     }
 
 
-    public long saveUser()  {
+    public void saveUser()  {
         ObjectDao<User> userDao = new ObjectDao<User>();
-        return userDao.addObject(this);
+         userDao.addObject(this);
     }
 
-    public void updateUser() throws IllegalAccessException, InvocationTargetException {
+    public void updateUser() {
         ObjectDao<User> userDao = new ObjectDao<User>();
         userDao.updateObject(this, this.getUserId(), User.class);
     }
 
-    public void deleteUser() throws IllegalAccessException, InvocationTargetException {
+    public void deleteUser(){
         ObjectDao<User> userDao = new ObjectDao<User>();
         userDao.deleteObject(this, this.getUserId(), User.class);
     }
 
     public static User getUserById(long id) {
-        User userHolder = null;
-        Session session = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            userHolder = (User) session.get(User.class, id);
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-        return userHolder;
+            ObjectDao<User> dao = new ObjectDao<User>();
+        return dao.getObjectById(id, User.class);
     }
 
     public static ArrayList<User> getUsers() {
-        ArrayList<User> users;
-        ObjectDao userDao = new ObjectDao();
-        users = userDao.getAllObjects("User");
-        return users;
+        ObjectDao<User> dao = new ObjectDao<User>();
+        return dao.getAllObjects(User.class, "users");
     }
 }

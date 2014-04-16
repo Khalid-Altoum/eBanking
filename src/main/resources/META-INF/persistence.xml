@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="eBankingPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.example.ebanking.model.Account</class>
+    <class>com.example.ebanking.model.Address</class>
+    <class>com.example.ebanking.model.ChequingAccount</class>
+    <class>com.example.ebanking.model.Client</class>
+    <class>com.example.ebanking.model.ClientCard</class>
+    <class>com.example.ebanking.model.ClosedTermInvestment</class>
+    <class>com.example.ebanking.model.CreditAccount</class>
+    <class>com.example.ebanking.model.CreditPlan</class>
+    <class>com.example.ebanking.model.Employee</class>
+    <class>com.example.ebanking.model.InvestmentAccount</class>
+    <class>com.example.ebanking.model.InvestmentPlan</class>
+    <class>com.example.ebanking.model.OpenTermInvestment</class>
+    <class>com.example.ebanking.model.Payee</class>
+    <class>com.example.ebanking.model.PayeeAccount</class>
+    <class>com.example.ebanking.model.Role</class>
+    <class>com.example.ebanking.model.SavingAccount</class>
+    <class>com.example.ebanking.model.Transaction</class>
+    <class>com.example.ebanking.model.User</class>
+    <class>com.example.ebanking.model.UserRole</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/eBanking?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="1234"/>
+      <property name="eclipselink.ddl-generation" value="create-tables"/>
+    </properties>
+  </persistence-unit>
+</persistence>

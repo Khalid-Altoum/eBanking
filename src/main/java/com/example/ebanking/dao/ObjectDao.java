@@ -7,22 +7,16 @@ package com.example.ebanking.dao;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.logging.*;
+import javax.persistence.*;
 import org.apache.commons.beanutils.BeanUtils;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.StatelessSession;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 
-/**
- *
- * @author Khalid
- */
 public class ObjectDao<T> {
 
-    private static SessionFactory factory;
+    private static final String PERSISTENCE_UNIT_NAME = "eBankingPU";
+    private EntityManagerFactory emf;
+    //private EntityManager em;
+
     private T t;
 
     public T get() {
@@ -34,171 +28,92 @@ public class ObjectDao<T> {
     }
 
     public ObjectDao() {
-        makeSessionFactory();
+        getEMF();
     }
 
-    public static void makeSessionFactory() {
-
-        try {
-            factory = new Configuration().configure().buildSessionFactory();
-        } catch (HibernateException ex) {
-
-            throw new ExceptionInInitializerError(ex);
+    public EntityManagerFactory getEMF() {
+        if (emf == null) {
+            emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         }
+        return emf;
     }
 
-    public static Long addObject(Object object) {
-        Session session = factory.openSession();
-        Transaction tx = null;
-        Long id = null;
+    public void addObject(Object entity) {
+        EntityManager em = this.getEMF().createEntityManager();
         try {
-            tx = session.beginTransaction();
-
-            id = (Long) session.save(object);
-
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            e.printStackTrace();
+            em.getTransaction().begin();
+            em.persist(entity);
+            em.getTransaction().commit();
         } finally {
-            session.close();
+            em.close();
         }
-        return id;
     }
 
-//    public void addOrUpdateObject(Object object) {
-//        Session session = factory.openSession();
-//        Transaction tx = null;
-//        try {
-//            tx = session.beginTransaction();
-//            if (session.contains(object)) {
-//                session.saveOrUpdate(object);
-//            } else {
-//                session.merge(object);
-//            }
-//
-//            tx.commit();
-//        } catch (HibernateException e) {
-//            if (tx != null) {
-//                tx.rollback();
-//            }
-//            e.printStackTrace();
-//        } finally {
-//            session.close();
-//        }
-//
-//    }
-
-    /* Method to UPDATE salary for an employee */
-    public void updateObject(Object object, long id, Class<T> ClassName) throws IllegalAccessException, InvocationTargetException {
-        Session session = factory.openSession();
-       // Transaction tx = null;
+    /* Method to UPDATE */
+    public void updateObject(Object entity, long id, Class<T> ClassName) {
+        EntityManager em = this.getEMF().createEntityManager();
         try {
-             session.beginTransaction();
-             
-            this.t = (T) session.load(ClassName, id);
-            BeanUtils.copyProperties(t,object);
-           // session.evict(object);
-            session.getTransaction().commit();
-        } catch (HibernateException e) {
-            e.printStackTrace();
+            em.getTransaction().begin();
+            this.t = (T) em.find(ClassName, id);
+            Object orig = entity;
+            Object dest = this.t;
+            BeanUtils.copyProperties(dest, orig);
+            entity = t;
+            t = null;
+            em.getTransaction().commit();
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(ObjectDao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(ObjectDao.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            session.close();
+            em.close();
         }
     }
+
     /* Method to DELETE an employee from the records */
-
-    public void deleteObject(Object object, long id, Class<T> ClassName) throws IllegalAccessException, InvocationTargetException {
-        Session session = factory.openSession();
-        Transaction tx = null;
+    public void deleteObject(Object object, long id, Class<T> ClassName) {
+        EntityManager em = this.getEMF().createEntityManager();
         try {
-            tx = session.beginTransaction();
-            // Deleting Object
-
-            this.t = (T) session.load(ClassName, id);
-            session.delete(t);
-            session.flush();
-
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            e.printStackTrace();
+            em.getTransaction().begin();
+            T entity = em.find(ClassName, id);
+            em.remove(entity);
+            em.getTransaction().commit();
         } finally {
-            session.close();
+            em.close();
         }
     }
 
-    public ArrayList getAllObjects(String tableName) {
-        Session session = factory.openSession();
-        ArrayList objects = null;
-        Transaction tx = null;
+    public T getObjectById(long id, Class<T> ClassName) {
+        EntityManager em = this.getEMF().createEntityManager();
         try {
-            tx = session.beginTransaction();
-            // Get All Physicians 
-            objects = (ArrayList) session.createQuery("FROM " + tableName).list();
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            e.printStackTrace();
+            return em.find(ClassName, id);
         } finally {
-            session.close();
+            em.close();
         }
-        return objects;
+    }
+
+    public ArrayList getAllObjects(Class<T> ClassName, String tableName) {
+        EntityManager em = this.getEMF().createEntityManager();
+        ArrayList entities = null;
+        try {
+            entities = (ArrayList) em.createQuery("SELECT tb FROM " + tableName + " tb ", ClassName).getResultList();
+
+            return entities;
+        } finally {
+            em.close();
+        }
     }
 
     public ArrayList getAllObjectsByCondition(String tableName, String whereString) {
-        Session session = factory.openSession();
-        ArrayList objects = null;
-        Transaction tx = null;
+        EntityManager em = this.getEMF().createEntityManager();
+        ArrayList entities = null;
         try {
-            tx = session.beginTransaction();
-            // Get All Physicians 
-            objects = (ArrayList) session.createQuery("FROM " + tableName + " WHERE " + whereString).list();
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            e.printStackTrace();
+            entities = (ArrayList) em.createQuery("SELECT tb FROM " + tableName + " tb WHERE " + whereString).getResultList();
+
+            return entities;
         } finally {
-            session.close();
+            em.close();
         }
-        return objects;
     }
-    
-     public int updateUsingSQL(String tableName,String setString, String whereString) {
-        // tableName i.e. Account
-        // setString i.e accountNumber = "Saving-0011-001",balance=1000
-        // whereSring i.e accountId = 3
-        StatelessSession session = factory.openStatelessSession();
-        Transaction tx = null;
-        int result=0;
-        try {
-            tx = session.beginTransaction();
-            Query query= session.createQuery("update " + tableName + " set "+ setString +" where " + whereString);
-            result = query.executeUpdate();
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-        return result;
-    }
+
 }
-
-
-//Query query = session.createQuery("update Stock set stockName = :stockName" +
-//    				" where stockCode = :stockCode");
-//query.setParameter("stockName", "DIALOG1");
-//query.setParameter("stockCode", "7277");
-//int result = query.executeUpdate();

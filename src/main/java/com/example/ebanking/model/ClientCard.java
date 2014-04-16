@@ -6,22 +6,11 @@
 package com.example.ebanking.model;
 
 import com.example.ebanking.dao.ObjectDao;
-import com.example.ebanking.persistence.HibernateUtil;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.annotations.Type;
+import javax.persistence.*;
 import org.joda.time.DateTime;
-
 @Entity
 @Table
 public class ClientCard implements Serializable {
@@ -30,11 +19,9 @@ public class ClientCard implements Serializable {
     @GeneratedValue
     protected Long clientCardId;
 
-    @Column
+
     private String cardNumber;
 
-    @Column
-    @Type(type = "org.joda.time.contrib.hibernate.PersistentDateTime")
     private DateTime expiryDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -82,28 +69,24 @@ public class ClientCard implements Serializable {
         this.relatedClient = relatedClient;
     }
 
-    public long saveClientCard() throws IllegalAccessException, InvocationTargetException {
+    public void saveClientCard() throws IllegalAccessException, InvocationTargetException {
         ObjectDao<ClientCard> accountDao = new ObjectDao<ClientCard>();
+        accountDao.addObject(this);
+        
+        updateRelatedClientUserName(this.relatedClient);
+      }
 
-        long cardId= accountDao.addObject(this);
-        updateRelatedClientUserName(this.relatedClient,cardId);
-        return cardId;
-
-    }
-
-    private void updateRelatedClientUserName(Client relatedClient,long cardId) throws IllegalAccessException, InvocationTargetException {
+    private void updateRelatedClientUserName(Client relatedClient)  {
         
         relatedClient.setUserName(this.cardNumber);
-        ArrayList<ClientCard> cards = new ArrayList<ClientCard>(0);
-        cards.add(ClientCard.getClientCardById(cardId));
-        relatedClient.setClientCards(cards);
         relatedClient.updateUser();
     }
 
     public void updateClientCard() throws IllegalAccessException, InvocationTargetException {
         ObjectDao<ClientCard> accountDao = new ObjectDao<ClientCard>();
         accountDao.updateObject(this, this.getClientCardId(), ClientCard.class);
-        updateRelatedClientUserName(this.relatedClient,this.getClientCardId());
+        
+        updateRelatedClientUserName(this.relatedClient);
     }
 
     public void deleteClientCard() throws IllegalAccessException, InvocationTargetException {
@@ -112,18 +95,12 @@ public class ClientCard implements Serializable {
     }
 
     public static ClientCard getClientCardById(long id) {
-        ClientCard cardHolder = null;
-        Session session = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            cardHolder = (ClientCard) session.get(ClientCard.class, id);
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-        return cardHolder;
+         ObjectDao<ClientCard> dao = new ObjectDao<ClientCard>();
+        return dao.getObjectById(id, ClientCard.class);
+    }
+    
+    public static ArrayList<ClientCard> getClientCards() {
+         ObjectDao<ClientCard> dao = new ObjectDao<ClientCard>();
+        return dao.getAllObjects(ClientCard.class, "ClientCard");
     }
 }

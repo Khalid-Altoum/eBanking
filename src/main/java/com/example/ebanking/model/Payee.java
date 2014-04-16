@@ -7,20 +7,10 @@
 package com.example.ebanking.model;
 
 import com.example.ebanking.dao.ObjectDao;
-import com.example.ebanking.persistence.HibernateUtil;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
+import javax.persistence.*;
 
 
 @Entity
@@ -30,7 +20,7 @@ public class Payee implements Serializable{
      @GeneratedValue
     private Long payeeId;
     
-     @Column
+
     private String name;
     
      
@@ -53,59 +43,36 @@ public class Payee implements Serializable{
 
         
      // Hibernate Methods
-    public long savePayee() {
-        ObjectDao<Payee> accountDao = new ObjectDao<Payee>();
-        return accountDao.addObject(this);
+    public void savePayee() {
+        ObjectDao<Payee> payeeDao = new ObjectDao<Payee>();
+        payeeDao.addObject(this);
     }
 
-    public void updatePayee() throws IllegalAccessException, InvocationTargetException {
+    public void updatePayee(){
         ObjectDao<Payee> payeeDao = new ObjectDao<Payee>();
         payeeDao.updateObject(this, this.getPayeeId(), Payee.class);
     }
 
-    public void deletePayee() throws IllegalAccessException, InvocationTargetException {
+    public void deletePayee(){
         ObjectDao<Payee> payeeDao = new ObjectDao<Payee>();
         payeeDao.deleteObject(this, this.getPayeeId(), Payee.class);
     }
 
     public static Payee getPayeeById(long id) {
-        Payee payeeHolder = null;
-        Session session = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            payeeHolder = (Payee) session.get(Payee.class, id);
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-        return payeeHolder;
+        ObjectDao<Payee> dao = new ObjectDao<Payee>();
+        return dao.getObjectById(id, Payee.class);
     }
 
     public static ArrayList<Payee> getPayees() {
-        ArrayList<Payee> payee;
-        ObjectDao accountDao = new ObjectDao();
-        payee = accountDao.getAllObjects("Payee");
-        return payee;
+        ObjectDao<Payee> dao = new ObjectDao<Payee>();
+        return dao.getAllObjects(Payee.class, "Payee");
     }
     
     public static Payee getPayeeByName(String payeeName) {
-        Payee payeeHolder = null;
-        Session session = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            payeeHolder = (Payee) session.createCriteria(Payee.class).
-                    add(Restrictions.eq("name", payeeName)).
-                    uniqueResult();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-        return payeeHolder;
+        ObjectDao<Payee> dao = new ObjectDao<Payee>();
+        ArrayList<Payee> payees=null;
+        payees= dao.getAllObjectsByCondition(" Payee ", " name = " + payeeName);
+        
+        return payees.get(0);
     }
 }

@@ -22,10 +22,9 @@ public class test2DB {
         CreditAccount ca = new CreditAccount("4520-5656-0000-9000-4564", 5000, DateTime.now(), "151");
         ca.setCreditPlan(cr);
         
-        List<CreditAccount> accounts = cr.getCreditAccounts();
-        accounts.add(ca);
         
-        long id= cr.saveCreditPlan();
+        
+//        long id= cr.saveCreditPlan();
         
         
         

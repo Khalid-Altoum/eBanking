@@ -16,10 +16,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-/**
- *
- * @author HMD
- */
 
 
 @Entity
@@ -30,25 +26,13 @@ public class Address implements Serializable {
     @GeneratedValue
     private long addressId;
 
-    @Column
+  
     private String streetNumber;
-
-    @Column
     private String streetName;
-
-    @Column
     private String apartmentNumber;
-
-    @Column
     private String city;
-
-    @Column
     private String province;
-
-    @Column
     private String postalCode;
-
-    @Column
     private String country;
 
    
@@ -131,24 +115,22 @@ public class Address implements Serializable {
     }
 
     public void saveAddress() {
-        ObjectDao addressDao = new ObjectDao();
-        addressDao.addObject(this);
+        ObjectDao<Address> accountDao = new ObjectDao<Address>();
+         accountDao.addObject(this);
     }
 
-    public void updateAddress() throws IllegalAccessException, InvocationTargetException {
-        ObjectDao addressDao = new ObjectDao();
-        addressDao.updateObject(this,this.addressId,Address.class);
+    public void updateAddress(){
+        ObjectDao<Address> accountDao = new ObjectDao<Address>();
+        accountDao.updateObject(this, this.getAddressId(), Address.class);
     }
 
-    public void deleteAddress() throws IllegalAccessException, InvocationTargetException {
-        ObjectDao addressDao = new ObjectDao();
-        addressDao.deleteObject(this,this.addressId,Address.class);
+    public void deleteAddress(){
+        ObjectDao<Address> accountDao = new ObjectDao<Address>();
+        accountDao.deleteObject(this, this.getAddressId(), Address.class);
     }
 
     public ArrayList<Address> getAllAddresses() {
-        ArrayList<Address> addresses;
-        ObjectDao userDao = new ObjectDao();
-        addresses = userDao.getAllObjects("Address");
-        return addresses;
+        ObjectDao<Address> dao = new ObjectDao<Address>();
+        return dao.getAllObjects(Address.class, "Address");
     }
 }

@@ -3,32 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.example.ebanking.model;
 
 import com.example.ebanking.dao.ObjectDao;
-import com.example.ebanking.persistence.HibernateUtil;
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
+import javax.persistence.*;
 
 @Entity
-@Table
-@PrimaryKeyJoinColumn(name = "accountId")
-public class PayeeAccount extends Account implements Serializable{
-    
-    //@OneToMany(mappedBy = "payeeAccount",fetch = FetchType.EAGER)
-    //@LazyCollection(LazyCollectionOption.FALSE)
+public class PayeeAccount extends Account implements Serializable {
+
     @ManyToOne(fetch = FetchType.EAGER)
     private Payee payee;
 
@@ -39,45 +23,32 @@ public class PayeeAccount extends Account implements Serializable{
     public void setPayee(Payee payee) {
         this.payee = payee;
     }
-    
+
     @Override
-    public long saveAccount() {
+    public void saveAccount() {
         ObjectDao<PayeeAccount> accountDao = new ObjectDao<PayeeAccount>();
-        return accountDao.addObject(this);
+        accountDao.addObject(this);
     }
 
     @Override
-    public void updateAccount() throws IllegalAccessException, InvocationTargetException {
+    public void updateAccount() {
         ObjectDao<PayeeAccount> payeeAccountDao = new ObjectDao<PayeeAccount>();
         payeeAccountDao.updateObject(this, this.getAccountId(), PayeeAccount.class);
     }
 
     @Override
-    public void deleteAccount() throws IllegalAccessException, InvocationTargetException {
-        ObjectDao payeeAccount = new ObjectDao();
-        payeeAccount.deleteObject(this, this.getAccountId(), PayeeAccount.class);
+    public void deleteAccount() {
+        ObjectDao<PayeeAccount> payeeAccountDao = new ObjectDao<PayeeAccount>();
+        payeeAccountDao.deleteObject(this, this.getAccountId(), PayeeAccount.class);
     }
 
     public static PayeeAccount getPayeeAccountById(long id) {
-        PayeeAccount payeeAccountHolder = null;
-        Session session = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            payeeAccountHolder = (PayeeAccount) session.get(PayeeAccount.class, id);
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-        return payeeAccountHolder;
+        ObjectDao<PayeeAccount> dao = new ObjectDao<PayeeAccount>();
+        return dao.getObjectById(id, PayeeAccount.class);
     }
 
     public static ArrayList<PayeeAccount> getPayeeAccounts() {
-        ArrayList<PayeeAccount> payeeAccounts;
-        ObjectDao payeeAccountDao = new ObjectDao();
-        payeeAccounts = payeeAccountDao.getAllObjects("PayeeAccount");
-        return payeeAccounts;
+        ObjectDao<PayeeAccount> dao = new ObjectDao<PayeeAccount>();
+        return dao.getAllObjects(PayeeAccount.class, "PayeeAccount");
     }
 }

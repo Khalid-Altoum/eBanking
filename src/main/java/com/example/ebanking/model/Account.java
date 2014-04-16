@@ -7,29 +7,11 @@ package com.example.ebanking.model;
 
 import com.example.ebanking.dao.ObjectDao;
 
-import com.example.ebanking.persistence.HibernateUtil;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.annotations.Type;
+import javax.persistence.*;
 import org.joda.time.DateTime;
 
 @Entity
@@ -40,28 +22,17 @@ public class Account implements Serializable {
     @Id
     @GeneratedValue
     protected Long accountId;
-
-    @Column
+    
     private String accountNumber;
-
-    @Column
     private double balance;
-
-    @Column
     private String currency;
-
-    @Column
     private String currencySign;
-
-    @Column
-    @Type(type = "org.joda.time.contrib.hibernate.PersistentDateTime")
     private DateTime openedDate;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Client client;
 
     @OneToMany(mappedBy = "sourceAccount", fetch = FetchType.EAGER)
-    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Transaction> sourceTransactions;
 
     public static enum AccountStatus {
@@ -168,42 +139,29 @@ public class Account implements Serializable {
     }
 
     // Hibernate Methods
-    public long saveAccount() {
+    public void saveAccount() {
         ObjectDao<Account> accountDao = new ObjectDao<Account>();
-        return accountDao.addObject(this);
+         accountDao.addObject(this);
     }
 
-    public void updateAccount() throws IllegalAccessException, InvocationTargetException {
+    public void updateAccount()  {
         ObjectDao<Account> accountDao = new ObjectDao<Account>();
         accountDao.updateObject(this, this.getAccountId(), Account.class);
     }
 
-    public void deleteAccount() throws IllegalAccessException, InvocationTargetException {
+    public void deleteAccount()  {
         ObjectDao<Account> accountDao = new ObjectDao<Account>();
         accountDao.deleteObject(this, this.getAccountId(), Account.class);
     }
 
     public static Account getAccountById(long id) {
-        Account accountHolder = null;
-        Session session = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            accountHolder = (Account) session.get(Account.class, id);
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-        return accountHolder;
+           ObjectDao<Account> dao = new ObjectDao<Account>();
+        return dao.getObjectById(id, Account.class);
     }
 
     public static ArrayList<Account> getAccounts() {
-        ArrayList<Account> accounts;
-        ObjectDao accountDao = new ObjectDao();
-        accounts = accountDao.getAllObjects("Account");
-        return accounts;
+        ObjectDao<Account> dao = new ObjectDao<Account>();
+        return dao.getAllObjects(Account.class, "Account");
     }
 
     public static ArrayList<Account> getAllClientAccounts(Long clientId) {
@@ -318,8 +276,5 @@ public class Account implements Serializable {
         return accounts;
     }
 
-    // TO DO
-    public void payBill(double amount) {
-    }
-
+    
 }

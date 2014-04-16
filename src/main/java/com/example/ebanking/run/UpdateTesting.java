@@ -12,7 +12,7 @@ import com.example.ebanking.model.*;
 public class UpdateTesting {
     public static void main(String[] args) {
         SavingAccount sa = SavingAccount.getSavingAccountById(1);
-        ChequingAccount ca = ChequingAccount.getCheckingAccountById(2);
+        ChequingAccount ca = ChequingAccount.getChequingAccountById(2);
         
         Account.transfer(ca, sa, 100, "Paying my load");
     }

@@ -6,27 +6,22 @@
 package com.example.ebanking.model;
 
 import com.example.ebanking.dao.ObjectDao;
-import com.example.ebanking.persistence.HibernateUtil;
 import com.example.ebanking.utils.DateUtil;
 import com.example.ebanking.utils.RandomUtil;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.annotations.Type;
+import javax.persistence.*;
 import org.joda.time.DateTime;
 
 @Entity
-@Table
-@PrimaryKeyJoinColumn(name = "accountId")
 public class InvestmentAccount extends Account implements Serializable {
+
+    private DateTime startDate;
+    private DateTime endDate;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private InvestmentPlan investmentPlan;
 
     public InvestmentAccount() {
         super.settingNewAccountValues();
@@ -38,16 +33,6 @@ public class InvestmentAccount extends Account implements Serializable {
         this.endDate = endDate;
         this.investmentPlan = investmentPlan;
     }
-    @Column
-    @Type(type = "org.joda.time.contrib.hibernate.PersistentDateTime")
-    private DateTime startDate;
-
-    @Column
-    @Type(type = "org.joda.time.contrib.hibernate.PersistentDateTime")
-    private DateTime endDate;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    private InvestmentPlan investmentPlan;
 
     public DateTime getStartDate() {
         return startDate;
@@ -74,46 +59,33 @@ public class InvestmentAccount extends Account implements Serializable {
     }
 
     @Override
-    public long saveAccount() {
+    public void saveAccount() {
         ObjectDao<InvestmentAccount> accountDao = new ObjectDao<InvestmentAccount>();
         this.endDate = DateUtil.addDays(this.startDate, this.investmentPlan.getDurationInDays());
-        return accountDao.addObject(this);
+        accountDao.addObject(this);
     }
 
     @Override
-    public void updateAccount() throws IllegalAccessException, InvocationTargetException {
+    public void updateAccount() {
         ObjectDao<InvestmentAccount> investmentAccountDao = new ObjectDao<InvestmentAccount>();
         this.endDate = DateUtil.addDays(this.startDate, this.investmentPlan.getDurationInDays());
         investmentAccountDao.updateObject(this, this.getAccountId(), InvestmentAccount.class);
     }
 
     @Override
-    public void deleteAccount() throws IllegalAccessException, InvocationTargetException {
+    public void deleteAccount() {
         ObjectDao investmentAccountDao = new ObjectDao();
         investmentAccountDao.deleteObject(this, this.getAccountId(), InvestmentAccount.class);
     }
 
     public static InvestmentAccount getInvestmentAccountById(long id) {
-        InvestmentAccount investmentAccountHolder = null;
-        Session session = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            investmentAccountHolder = (InvestmentAccount) session.get(InvestmentAccount.class, id);
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-        return investmentAccountHolder;
+        ObjectDao<InvestmentAccount> dao = new ObjectDao<InvestmentAccount>();
+        return dao.getObjectById(id, InvestmentAccount.class);
     }
 
     public static ArrayList<InvestmentAccount> getInvestmentAccounts() {
-        ArrayList<InvestmentAccount> investmentAccounts;
-        ObjectDao investmentAccountDao = new ObjectDao();
-        investmentAccounts = investmentAccountDao.getAllObjects("InvestmentAccount");
-        return investmentAccounts;
+        ObjectDao<InvestmentAccount> dao = new ObjectDao<InvestmentAccount>();
+        return dao.getAllObjects(InvestmentAccount.class, "InvestmentAccount");
     }
 
     @Override

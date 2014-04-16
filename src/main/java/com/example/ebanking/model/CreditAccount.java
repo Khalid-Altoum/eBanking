@@ -6,20 +6,10 @@
 package com.example.ebanking.model;
 
 import com.example.ebanking.dao.ObjectDao;
-import com.example.ebanking.persistence.HibernateUtil;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.annotations.Type;
+import javax.persistence.*;
 import org.joda.time.DateTime;
 
 @Entity
@@ -32,15 +22,11 @@ public class CreditAccount extends Account implements Serializable {
 
     private double availableCredit;
 
-    // Credit Card Info
-    // Use the account number as the credit card number
-    @Column
-    @Type(type = "org.joda.time.contrib.hibernate.PersistentDateTime")
+
     private DateTime expiryDate;
 
-    @Column
+
     private int CVS;
-    // done with cards info
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private CreditPlan creditPlan;
@@ -98,43 +84,30 @@ public class CreditAccount extends Account implements Serializable {
     }
 
     @Override
-    public long saveAccount() {
-        ObjectDao creditAccountDao = new ObjectDao();
-        return creditAccountDao.addObject(this);
+    public void saveAccount() {
+        ObjectDao<CreditAccount> creditAccountDao = new ObjectDao<CreditAccount>();
+        creditAccountDao.addObject(this);
     }
 
     @Override
-    public void updateAccount() throws IllegalAccessException, InvocationTargetException {
-        ObjectDao creditAccountDao = new ObjectDao();
+    public void updateAccount(){
+        ObjectDao<CreditAccount> creditAccountDao = new ObjectDao<CreditAccount>();
         creditAccountDao.updateObject(this, this.getAccountId(), CreditAccount.class);
     }
 
-    public void deleteCreditAccount() throws IllegalAccessException, InvocationTargetException {
+    public void deleteCreditAccount(){
         ObjectDao creditAccountDao = new ObjectDao();
         creditAccountDao.deleteObject(this, this.getAccountId(), CreditAccount.class);
     }
 
     public static CreditAccount getCreditAccountById(long id) {
-        CreditAccount creditAccountHolder = null;
-        Session session = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            creditAccountHolder = (CreditAccount) session.get(CreditAccount.class, id);
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-        return creditAccountHolder;
+        ObjectDao<CreditAccount> dao = new ObjectDao<CreditAccount>();
+        return dao.getObjectById(id, CreditAccount.class);
     }
 
     public static ArrayList<CreditAccount> getCreditAccounts() {
-        ArrayList<CreditAccount> creditAccounts;
-        ObjectDao creditAccountDao = new ObjectDao();
-        creditAccounts = creditAccountDao.getAllObjects("CreditAccount");
-        return creditAccounts;
+        ObjectDao<CreditAccount> dao = new ObjectDao<CreditAccount>();
+        return dao.getAllObjects(CreditAccount.class, "CreditAccount");
     }
 
     @Override

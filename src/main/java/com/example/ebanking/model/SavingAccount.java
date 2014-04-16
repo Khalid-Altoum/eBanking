@@ -7,16 +7,10 @@
 package com.example.ebanking.model;
 
 import com.example.ebanking.dao.ObjectDao;
-import com.example.ebanking.persistence.HibernateUtil;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-
+import javax.persistence.*;
 
 @Entity
 @Table
@@ -30,40 +24,27 @@ public class SavingAccount extends Account implements Serializable{
     
     
       public void saveSavingAccount() {
-        ObjectDao savingAccountDao = new ObjectDao();
+        ObjectDao<SavingAccount> savingAccountDao = new ObjectDao<SavingAccount>();
         savingAccountDao.addObject(this);
     }
 
-    public void updateSavingAccount() throws IllegalAccessException, InvocationTargetException {
-        ObjectDao savingAccountDao = new ObjectDao();
+    public void updateSavingAccount(){
+        ObjectDao<SavingAccount> savingAccountDao = new ObjectDao<SavingAccount>();
         savingAccountDao.updateObject(this, this.getAccountId(), SavingAccount.class);
     }
 
     public void deleteSavingAccount() throws IllegalAccessException, InvocationTargetException {
-        ObjectDao savingAccountDao = new ObjectDao();
+        ObjectDao<SavingAccount> savingAccountDao = new ObjectDao<SavingAccount>();
         savingAccountDao.deleteObject(this, this.getAccountId(), SavingAccount.class);
     }
 
     public static SavingAccount getSavingAccountById(long id) {
-        SavingAccount savingAccountHolder = null;
-        Session session = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            savingAccountHolder = (SavingAccount) session.get(SavingAccount.class, id);
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-        return savingAccountHolder;
+        ObjectDao<SavingAccount> dao = new ObjectDao<SavingAccount>();
+        return dao.getObjectById(id, SavingAccount.class);
     }
 
     public static ArrayList<SavingAccount> getSavingAccounts() {
-        ArrayList<SavingAccount> savingAccounts;
-        ObjectDao savingAccountDao = new ObjectDao();
-        savingAccounts = savingAccountDao.getAllObjects("SavingAccount");
-        return savingAccounts;
+        ObjectDao<SavingAccount> dao = new ObjectDao<SavingAccount>();
+        return dao.getAllObjects(SavingAccount.class, "SavingAccount");
     }
 }

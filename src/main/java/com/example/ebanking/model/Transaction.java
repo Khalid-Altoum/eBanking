@@ -1,23 +1,12 @@
 package com.example.ebanking.model;
 
 import com.example.ebanking.dao.ObjectDao;
-import com.example.ebanking.persistence.HibernateUtil;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.annotations.Type;
+import javax.persistence.*;
 import org.joda.time.DateTime;
 
 /*
@@ -32,20 +21,11 @@ public class Transaction implements Serializable {
     @Id
     @GeneratedValue
     private Long transactionId;
-
-    @Column
-    @Type(type = "org.joda.time.contrib.hibernate.PersistentDateTime")
     private DateTime transactionTime;
-
-    @Column
     private String description;
-    @Column
     private double debit;
-    @Column
     private String formattedDebit;
-    @Column
     private double credit;
-    @Column
     private String formattedCredit;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -140,42 +120,29 @@ public class Transaction implements Serializable {
         }
     }
 
-    public long saveTransaction() {
-        ObjectDao<Transaction> accountDao = new ObjectDao<Transaction>();
-        return accountDao.addObject(this);
+    public void saveTransaction() {
+        ObjectDao<Transaction> transactionDao = new ObjectDao<Transaction>();
+        transactionDao.addObject(this);
     }
 
-    public void updateTransaction() throws IllegalAccessException, InvocationTargetException {
-        ObjectDao<Transaction> accountDao = new ObjectDao<Transaction>();
-        accountDao.updateObject(this, this.getTransactionId(), Transaction.class);
+    public void updateTransaction(){
+        ObjectDao<Transaction> transactionDao = new ObjectDao<Transaction>();
+        transactionDao.updateObject(this, this.getTransactionId(), Transaction.class);
     }
 
-    public void deleteTransaction() throws IllegalAccessException, InvocationTargetException {
-        ObjectDao<Transaction> accountDao = new ObjectDao<Transaction>();
-        accountDao.deleteObject(this, this.getTransactionId(), Transaction.class);
+    public void deleteTransaction(){
+        ObjectDao<Transaction> transactionDao = new ObjectDao<Transaction>();
+        transactionDao.deleteObject(this, this.getTransactionId(), Transaction.class);
     }
 
     public static Transaction getTransactionById(long id) {
-        Transaction accountHolder = null;
-        Session session = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            accountHolder = (Transaction) session.get(Transaction.class, id);
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-        return accountHolder;
+        ObjectDao<Transaction> dao = new ObjectDao<Transaction>();
+        return dao.getObjectById(id, Transaction.class);
     }
 
     public static ArrayList<Transaction> getTransactions() {
-        ArrayList<Transaction> transactions;
-        ObjectDao accountDao = new ObjectDao();
-        transactions = accountDao.getAllObjects("Transaction");
-        return transactions;
+        ObjectDao<Transaction> dao = new ObjectDao<Transaction>();
+        return dao.getAllObjects(Transaction.class, "Transaction");
     }
 
     public static ArrayList<Transaction> getAccountTransactions(String accountNumber) {

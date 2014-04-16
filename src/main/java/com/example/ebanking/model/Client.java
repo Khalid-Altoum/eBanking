@@ -6,41 +6,24 @@
 package com.example.ebanking.model;
 
 import com.example.ebanking.dao.ObjectDao;
-import com.example.ebanking.persistence.HibernateUtil;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.criterion.Restrictions;
+import javax.persistence.*;
 
-/**
- *
- * @author HMD
- */
+
+
+
 @Entity
 @Table
 @PrimaryKeyJoinColumn(name = "userId")
 public class Client extends User implements Serializable {
 
-    @Column
     private long age;
 
     @OneToMany(mappedBy = "client")
-    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Account> accounts;
-
-    @OneToMany(mappedBy = "relatedClient")
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<ClientCard> clientCards;
 
     public long getAge() {
         return age;
@@ -58,74 +41,42 @@ public class Client extends User implements Serializable {
         this.accounts = accounts;
     }
 
-    public List<ClientCard> getClientCards() {
-        return clientCards;
-    }
-
-    public void setClientCards(List<ClientCard> clientCards) {
-        this.clientCards = clientCards;
-    }
-
-   
-
     @Override
-    public long saveUser() {
-        ObjectDao<Client> userDao = new ObjectDao<Client>();
-        return userDao.addObject(this);
+    public void saveUser(){
+        ObjectDao<Client> accountDao = new ObjectDao<Client>();
+         accountDao.addObject(this);
     }
 
     @Override
-    public void updateUser() throws IllegalAccessException, InvocationTargetException {
-        ObjectDao<Client> userDao = new ObjectDao<Client>();
-        userDao.updateObject(this, this.getUserId(), Client.class);
+    public void updateUser(){
+        ObjectDao<Client> clientDao = new ObjectDao<Client>();
+        clientDao.updateObject(this, this.getUserId(), Client.class);
     }
 
     @Override
-    public void deleteUser() throws IllegalAccessException, InvocationTargetException {
-        ObjectDao<Client> userDao = new ObjectDao<Client>();
-        userDao.deleteObject(this, this.getUserId(), Client.class);
+    public void deleteUser() {
+        ObjectDao<Client> clientDao = new ObjectDao<Client>();
+        clientDao.deleteObject(this, this.getUserId(), Client.class);
     }
 
     public static Client getClientsById(long id) {
-        Client userHolder = null;
-        Session session = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            userHolder = (Client) session.get(Client.class, id);
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-        return userHolder;
+        ObjectDao<Client> dao = new ObjectDao<Client>();
+        return dao.getObjectById(id, Client.class);
     }
 
     public static ArrayList<Client> getClients() {
-        ArrayList<Client> clients;
-        ObjectDao userDao = new ObjectDao();
-        clients = userDao.getAllObjects("Client");
-        return clients;
+        ObjectDao<Client> dao = new ObjectDao<Client>();
+        return dao.getAllObjects(Client.class, "Client");
     }
 
-    public static Client getClientByAccountNumber(String clientNumber) {
-        Client clientHolder = null;
-        Session session = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            clientHolder = (Client) session.createCriteria(User.class).
-                    add(Restrictions.eq("userName", clientNumber)).
-                    uniqueResult();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-        return clientHolder;
+     public static Client getClientByAccountNumber(String clientNumber) {
+        ObjectDao<Client> dao = new ObjectDao<Client>();
+        ArrayList<Client> client=null;
+        client= dao.getAllObjectsByCondition(" Client ", " userName = " + clientNumber);
+        
+        return client.get(0);
     }
+
 
     
 
